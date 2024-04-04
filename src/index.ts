@@ -18,8 +18,8 @@ if (!HOME_DIR) {
     throw new Error('Could not find "USERPROFILE"!')
 }
 
-const WORKBENCH_DIR = HOME_DIR +
-    "\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench"
+const WORKBENCH_DIR =
+    `${HOME_DIR}\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench`
 
 const CSS_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.css`
 const CSS_BACKUP_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.backup.css`
