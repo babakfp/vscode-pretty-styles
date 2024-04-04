@@ -5,7 +5,7 @@ import { transform } from "lightningcss"
 
 const ARGS = parseArgs(Deno.args, {
     boolean: ["no-minify", "restore-backup"],
-    string: ["font-family"],
+    string: ["font-family", "css"],
 })
 
 if (Deno.build.os !== "windows") {
@@ -67,7 +67,7 @@ console.log("✅ The file content was read.")
 const ENCODER = new TextEncoder()
 const DECODER = new TextDecoder()
 
-const MODIFIED_CSS_CONTENT = DECODER.decode(
+let modifiedCssContent = DECODER.decode(
     transform({
         filename: CSS_PATH,
         code: ENCODER.encode(CSS_CONTENT),
@@ -93,6 +93,14 @@ const MODIFIED_CSS_CONTENT = DECODER.decode(
     }).code,
 )
 
-await Deno.writeTextFile(CSS_PATH, MODIFIED_CSS_CONTENT)
+if (ARGS.css) {
+    if (await exists(ARGS.css)) {
+        modifiedCssContent += "\n" + await Deno.readTextFile(CSS_PATH)
+    } else {
+        console.log(`Could not find: "${ARGS.css}".`)
+    }
+}
+
+await Deno.writeTextFile(CSS_PATH, modifiedCssContent)
 
 console.log("✅ The file content was rewritten.")
