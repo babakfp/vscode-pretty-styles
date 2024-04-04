@@ -7,6 +7,10 @@ const FLAGS = parseArgs(Deno.args, {
     string: "font-family",
 })
 
+if (!FLAGS["font-family"]) {
+    throw new Error('The "--font-family" option was not specified!')
+}
+
 const CUSTOM_FONT_FAMILY = "MonoLisa, JetBrains Mono"
 
 if (Deno.build.os !== "windows") {
