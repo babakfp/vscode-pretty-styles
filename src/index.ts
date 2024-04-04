@@ -60,7 +60,7 @@ if (!(await exists(CSS_BACKUP_PATH))) {
     console.log(`✅ Created backup: "${CSS_BACKUP_PATH}".`)
 }
 
-const CSS_CONTENT = await Deno.readTextFile(CSS_PATH)
+const CSS_CONTENT = await Deno.readTextFile(CSS_BACKUP_PATH)
 
 console.log("✅ The file content was read.")
 
@@ -69,7 +69,7 @@ const DECODER = new TextDecoder()
 
 let modifiedCssContent = DECODER.decode(
     transform({
-        filename: CSS_PATH,
+        filename: CSS_BACKUP_PATH,
         code: ENCODER.encode(CSS_CONTENT),
         visitor: {
             Rule(RULE) {
