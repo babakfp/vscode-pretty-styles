@@ -94,7 +94,7 @@ let modifiedCssContent = DECODER.decode(
 
 if (ARGS.css) {
     if (await exists(ARGS.css)) {
-        modifiedCssContent += "\n\n" + await Deno.readTextFile(CSS_PATH)
+        modifiedCssContent += "\n\n" + await Deno.readTextFile(ARGS.css)
     } else {
         console.log(`Could not find: "${ARGS.css}".`)
     }
