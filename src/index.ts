@@ -1,5 +1,6 @@
 import { parseArgs } from "std/cli/parse_args.ts"
 import { exists } from "std/fs/mod.ts"
+import { copy } from "std/fs/copy.ts"
 import { transform } from "lightningcss"
 
 const FLAGS = parseArgs(Deno.args, {
@@ -24,9 +25,9 @@ if (!HOME_DIR) {
 }
 
 const WORKBENCH_CSS_PATH = HOME_DIR +
-    // `\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench\\workbench.desktop.main.css`
-    `\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench\\workbench.desktop.main.copy.css`
-// TODO: REMOVE ^^^
+    "\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench\\workbench.desktop.main.css"
+const WORKBENCH_CSS_PATH_BACKUP = HOME_DIR +
+    "\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench\\workbench.desktop.main.backup.css"
 
 const IS_WORKBENCH_CSS_EXISTS = await exists(WORKBENCH_CSS_PATH)
 
@@ -35,6 +36,17 @@ if (!IS_WORKBENCH_CSS_EXISTS) {
 }
 
 console.log(`✅ Found: "${WORKBENCH_CSS_PATH}".`)
+
+const WORKBENCH_CSS_PATH_BACKUP_EXISTS = await exists(WORKBENCH_CSS_PATH_BACKUP)
+
+if (!WORKBENCH_CSS_PATH_BACKUP_EXISTS) {
+    throw new Error('Could not find "workbench.desktop.main.css"!')
+}
+
+if (!WORKBENCH_CSS_PATH_BACKUP_EXISTS) {
+    await copy(WORKBENCH_CSS_PATH, WORKBENCH_CSS_PATH_BACKUP)
+    console.log(`✅ Created a backup: "${WORKBENCH_CSS_PATH_BACKUP}".`)
+}
 
 const WORKBENCH_CSS_CONTENT = await Deno.readTextFile(WORKBENCH_CSS_PATH)
 
