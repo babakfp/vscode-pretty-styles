@@ -3,37 +3,6 @@ import { exists } from "std/fs/mod.ts"
 import { copy } from "std/fs/copy.ts"
 import { transform } from "lightningcss"
 
-/**
- * This function acts as a preprocessor for Svelte.
- * It transforms Markdown files into HTML, preparing them for further processing by Svelte or other preprocessors.
- *
- * ## Getting started
- *
- * Add the following into the `svelte.config.js` file (in a SvelteKit project):
- *
- * ```ts
- * import { svelteInMarkdown, DEFAULT_EXTENSIONS } from "svelte-in-markdown"
- *
- * const config = {
- *     extensions: [".svelte", ...DEFAULT_EXTENSIONS],
- *     preprocess: [
- *         vitePreprocess(),
- *         svelteInMarkdown(),
- *     ]
- * }
- * ```
- *
- * Add this into your layout file (`+layout.svelte`) to get frontmatter data working:
- *
- * ```ts
- * <script lang="ts">
- *     import { setContext } from "svelte"
- *
- *     setContext("markdownElements_", markdownElements)
- * //                              ^ (important)
- * </script>
- * ```
- */
 const ARGS = parseArgs(Deno.args, {
     boolean: ["restore-backup"],
     string: ["font-family", "css"],
@@ -49,8 +18,7 @@ if (!HOME_DIR) {
     throw new Error('Could not find "USERPROFILE"!')
 }
 
-const WORKBENCH_DIR =
-    `${HOME_DIR}\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench`
+const WORKBENCH_DIR = `${HOME_DIR}\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench`
 
 const CSS_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.css`
 const CSS_BACKUP_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.backup.css`
@@ -111,28 +79,31 @@ let modifiedCssContent = DECODER.decode(
 
                 if (
                     RULE.value.declarations.declarations[0].property !==
-                        "font-family"
-                ) return
+                    "font-family"
+                )
+                    return
 
-                RULE.value.declarations.declarations[0].value =
-                    ARGS["font-family"]!
-                        .split(",").map((FONT) => FONT.trim())
+                RULE.value.declarations.declarations[0].value = ARGS[
+                    "font-family"
+                ]!.split(",").map((FONT) => FONT.trim())
 
                 return RULE
             },
         },
-    }).code,
+    }).code
 )
 
 if (ARGS.css) {
     if (await exists(ARGS.css)) {
-        modifiedCssContent += "\n" + await Deno.readTextFile(ARGS.css)
+        modifiedCssContent += "\n" + (await Deno.readTextFile(ARGS.css))
     } else {
         console.log(`Could not find: "${ARGS.css}".`)
     }
 }
 
-modifiedCssContent += "\n" + `
+modifiedCssContent +=
+    "\n" +
+    `
     .scm-editor .scm-editor-placeholder,
     .scm-editor .view-lines.monaco-mouse-cursor-text {
         font-family: ${ARGS["font-family"]} !important;

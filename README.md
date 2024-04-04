@@ -1,6 +1,6 @@
 # vsCode Pretty Styles
 
-## Where to put the styles?
+## Workbench path
 
 ```
 C:\Users\Babak\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\workbench.desktop.main.css
