@@ -132,6 +132,13 @@ if (ARGS.css) {
     }
 }
 
+modifiedCssContent += "\n" + `
+    .scm-editor .scm-editor-placeholder,
+    .scm-editor .view-lines.monaco-mouse-cursor-text {
+        font-family: ${ARGS["font-family"]} !important;
+    }
+`
+
 await Deno.writeTextFile(CSS_PATH, modifiedCssContent)
 
 console.log("✅ The file content was rewritten.")
