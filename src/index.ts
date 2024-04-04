@@ -104,8 +104,8 @@ if (ARGS.css) {
 modifiedCssContent +=
     "\n" +
     `
-    .scm-editor .scm-editor-placeholder,
-    .scm-editor .view-lines.monaco-mouse-cursor-text {
+    .composite.viewlet .scm-editor-placeholder,
+    .composite.viewlet .view-lines.monaco-mouse-cursor-text {
         font-family: ${ARGS["font-family"]} !important;
     }
 `
