@@ -1,7 +1,7 @@
 :root {
     --x-border-radius: 12px;
 
-    --x-scrollbar-border-size: 4px;
+    --x-scrollbar-border-size: 5px;
     --x-scrollbar-border-size-reverse: calc(
         var(--x-scrollbar-border-size) + var(--x-border-radius)
     );
