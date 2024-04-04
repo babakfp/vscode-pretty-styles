@@ -1,20 +1,3 @@
-/*
-------------------------------------------
-|          vsCode Pretty Styles          |
-------------------------------------------
-*/
-
-/*
- * ## Where to put the styles?
- * 
- * `C:\Users\Babak\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\workbench.desktop.main.css`
- * 
- * ## How to open dev tools?
- * 
- * 1. Press `ctrl` + `shift` + `p`.
- * 2. Select "Toggle Developer Tools".
-*/
-
 .window-title,
 .menubar-menu-title,
 .monaco-breadcrumb-item {
@@ -71,7 +54,7 @@
 
 /* [^1] The box that shows up when hovering over thigns */
 .monaco-editor .monaco-hover .hover-contents:not(.html-hover-contents) {
-    padding: 2rem !important;
+    padding: 1rem !important;
 }
 
 .scrollbar > .slider {
@@ -92,7 +75,7 @@
 
 .monaco-editor .monaco-hover {
     border-width: 2px !important;
-    border-radius: 0 !important;
+    border-radius: 12px !important;
 }
 
 .monaco-editor .monaco-hover .hover-row:not(:first-child):not(:empty) {
@@ -152,7 +135,7 @@
 
 .monaco-tokenized-source {
     background: var(--my-hoverbox-markdown-inline-code-background) !important;
-    padding: 2rem !important;
+    padding: 1rem !important;
 }
 
 /* [^1] END */
