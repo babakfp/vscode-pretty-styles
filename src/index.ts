@@ -22,58 +22,56 @@ if (!HOME_DIR) {
     throw new Error('Could not find "USERPROFILE"!')
 }
 
-const WORKBENCH_PATH = HOME_DIR +
+const WORKBENCH_DIR = HOME_DIR +
     "\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench"
 
-const WORKBENCH_CSS_PATH = WORKBENCH_PATH + "\\workbench.desktop.main.css"
-const WORKBENCH_CSS_BACKUP_PATH = WORKBENCH_PATH +
-    "\\workbench.desktop.main.backup.css"
+const CSS_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.css`
+const CSS_BACKUP_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.backup.css`
 
-if (!(await exists(WORKBENCH_CSS_PATH))) {
-    throw new Error('Could not find "workbench.desktop.main.css"!')
+if (!(await exists(CSS_PATH))) {
+    throw new Error(`Could not find "${CSS_PATH}"!`)
 }
 
-console.log(`✅ Found: "${WORKBENCH_CSS_PATH}".`)
+console.log(`✅ Found: "${CSS_PATH}".`)
 
-if (!(await exists(WORKBENCH_CSS_BACKUP_PATH))) {
-    await copy(WORKBENCH_CSS_PATH, WORKBENCH_CSS_BACKUP_PATH)
-    console.log(`✅ Created a backup: "${WORKBENCH_CSS_BACKUP_PATH}".`)
+if (!(await exists(CSS_BACKUP_PATH))) {
+    await copy(CSS_PATH, CSS_BACKUP_PATH)
+    console.log(`✅ Created backup: "${CSS_BACKUP_PATH}".`)
 }
 
-const WORKBENCH_CSS_CONTENT = await Deno.readTextFile(WORKBENCH_CSS_PATH)
+const CSS_CONTENT = await Deno.readTextFile(CSS_PATH)
 
 console.log("✅ The file content was read.")
 
 const ENCODER = new TextEncoder()
 const DECODER = new TextDecoder()
 
-const MODIFIED_WORKBENCH_CSS_UINT8ARRAY = transform({
-    filename: WORKBENCH_CSS_PATH,
-    code: ENCODER.encode(WORKBENCH_CSS_CONTENT),
-    minify: !ARGS["no-minify"],
-    visitor: {
-        Rule(RULE) {
-            if (RULE.type !== "style") return
-            if (RULE.value.selectors[0][0].type !== "class") return
-            if (RULE.value.selectors[0][0].name !== "windows") return
+const MODIFIED_CSS_CONTENT = DECODER.decode(
+    transform({
+        filename: CSS_PATH,
+        code: ENCODER.encode(CSS_CONTENT),
+        minify: !ARGS["no-minify"],
+        visitor: {
+            Rule(RULE) {
+                if (RULE.type !== "style") return
+                if (RULE.value.selectors[0][0].type !== "class") return
+                if (RULE.value.selectors[0][0].name !== "windows") return
 
-            if (
-                RULE.value.declarations.declarations[0].property !==
-                    "font-family"
-            ) return
+                if (
+                    RULE.value.declarations.declarations[0].property !==
+                        "font-family"
+                ) return
 
-            RULE.value.declarations.declarations[0].value = ARGS["font-family"]!
-                .split(",").map((FONT) => FONT.trim())
+                RULE.value.declarations.declarations[0].value =
+                    ARGS["font-family"]!
+                        .split(",").map((FONT) => FONT.trim())
 
-            return RULE
+                return RULE
+            },
         },
-    },
-}).code
-
-const MODIFIED_WORKBENCH_CSS_CONTENT = DECODER.decode(
-    MODIFIED_WORKBENCH_CSS_UINT8ARRAY,
+    }).code,
 )
 
-await Deno.writeTextFile(WORKBENCH_CSS_PATH, MODIFIED_WORKBENCH_CSS_CONTENT)
+await Deno.writeTextFile(CSS_PATH, MODIFIED_CSS_CONTENT)
 
 console.log("✅ The file content was rewritten.")
