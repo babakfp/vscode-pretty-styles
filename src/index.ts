@@ -3,16 +3,14 @@ import { exists } from "std/fs/mod.ts"
 import { copy } from "std/fs/copy.ts"
 import { transform } from "lightningcss"
 
-const FLAGS = parseArgs(Deno.args, {
+const ARGS = parseArgs(Deno.args, {
     boolean: "no-minify",
     string: "font-family",
 })
 
-if (!FLAGS["font-family"]) {
+if (!ARGS["font-family"]) {
     throw new Error('The "--font-family" option was not specified!')
 }
-
-const CUSTOM_FONT_FAMILY = "MonoLisa, JetBrains Mono"
 
 if (Deno.build.os !== "windows") {
     throw new Error("This script only works on Windows!")
@@ -24,28 +22,22 @@ if (!HOME_DIR) {
     throw new Error('Could not find "USERPROFILE"!')
 }
 
-const WORKBENCH_CSS_PATH = HOME_DIR +
-    "\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench\\workbench.desktop.main.css"
-const WORKBENCH_CSS_PATH_BACKUP = HOME_DIR +
-    "\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench\\workbench.desktop.main.backup.css"
+const WORKBENCH_PATH = HOME_DIR +
+    "\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench"
 
-const IS_WORKBENCH_CSS_EXISTS = await exists(WORKBENCH_CSS_PATH)
+const WORKBENCH_CSS_PATH = WORKBENCH_PATH + "\\workbench.desktop.main.css"
+const WORKBENCH_CSS_BACKUP_PATH = WORKBENCH_PATH +
+    "\\workbench.desktop.main.backup.css"
 
-if (!IS_WORKBENCH_CSS_EXISTS) {
+if (!(await exists(WORKBENCH_CSS_PATH))) {
     throw new Error('Could not find "workbench.desktop.main.css"!')
 }
 
 console.log(`✅ Found: "${WORKBENCH_CSS_PATH}".`)
 
-const WORKBENCH_CSS_PATH_BACKUP_EXISTS = await exists(WORKBENCH_CSS_PATH_BACKUP)
-
-if (!WORKBENCH_CSS_PATH_BACKUP_EXISTS) {
-    throw new Error('Could not find "workbench.desktop.main.css"!')
-}
-
-if (!WORKBENCH_CSS_PATH_BACKUP_EXISTS) {
-    await copy(WORKBENCH_CSS_PATH, WORKBENCH_CSS_PATH_BACKUP)
-    console.log(`✅ Created a backup: "${WORKBENCH_CSS_PATH_BACKUP}".`)
+if (!(await exists(WORKBENCH_CSS_BACKUP_PATH))) {
+    await copy(WORKBENCH_CSS_PATH, WORKBENCH_CSS_BACKUP_PATH)
+    console.log(`✅ Created a backup: "${WORKBENCH_CSS_BACKUP_PATH}".`)
 }
 
 const WORKBENCH_CSS_CONTENT = await Deno.readTextFile(WORKBENCH_CSS_PATH)
@@ -55,12 +47,10 @@ console.log("✅ The file content was read.")
 const ENCODER = new TextEncoder()
 const DECODER = new TextDecoder()
 
-const WORKBENCH_CSS_CONTENT_UINT8ARRAY = ENCODER.encode(WORKBENCH_CSS_CONTENT)
-
 const MODIFIED_WORKBENCH_CSS_UINT8ARRAY = transform({
     filename: WORKBENCH_CSS_PATH,
-    code: WORKBENCH_CSS_CONTENT_UINT8ARRAY,
-    minify: !FLAGS["no-minify"],
+    code: ENCODER.encode(WORKBENCH_CSS_CONTENT),
+    minify: !ARGS["no-minify"],
     visitor: {
         Rule(RULE) {
             if (RULE.type !== "style") return
@@ -72,7 +62,7 @@ const MODIFIED_WORKBENCH_CSS_UINT8ARRAY = transform({
                     "font-family"
             ) return
 
-            RULE.value.declarations.declarations[0].value = CUSTOM_FONT_FAMILY
+            RULE.value.declarations.declarations[0].value = ARGS["font-family"]!
                 .split(",").map((FONT) => FONT.trim())
 
             return RULE
