@@ -1,0 +1,10 @@
+{
+    "imports": {
+        "std/": "https://deno.land/std@0.221.0/",
+        "lightningcss": "npm:lightningcss@1.24.1"
+    },
+    "fmt": {
+        "semiColons": false,
+        "indentWidth": 4
+    }
+}
