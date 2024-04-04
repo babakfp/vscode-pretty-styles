@@ -1,85 +1,52 @@
+:root {
+    --x-border-radius: 12px;
+
+    --x-scrollbar-border-size: 4px;
+    --x-scrollbar-border-size-reverse: calc(
+        var(--x-scrollbar-border-size) + var(--x-border-radius)
+    );
+
+    --x-markdown-space-between: 2rem;
+
+    --x-markdown-hover-inline-code-bg: transparent;
+    --x-markdown-hover-inline-code-bg-dark: rgb(0, 0, 0, 10%);
+    --x-markdown-hover-inline-code-bg-light: rgb(255, 255, 255, 10%);
+}
+
 .window-title,
 .menubar-menu-title,
 .monaco-breadcrumb-item {
     font-size: 10px !important;
 }
 
-/* Footer/(Status bar) */
+.monaco-workbench .part.statusbar,
 .monaco-workbench
     .part.statusbar
     > .items-container
     > .statusbar-item
     span.codicon {
-    font-size: 12px !important;
+    font-size: 10px !important;
 }
 
-/*
-------------------------------------------
-|               Improve UI               |
-------------------------------------------
-*/
-
-:root {
-    /* [^1] */
-    --my-scrollbar-border-size: 4px;
-    --my-scrollbar-border-size-reverse: calc(
-        var(--my-scrollbar-border-size-reverse) + 2px
-    );
-
-    --my-markdown-items-spacing: 2rem;
-
-    --my-hoverbox-markdown-inline-code-background: transparent;
-    --my-hoverbox-markdown-inline-code-background-dark: rgb(0, 0, 0, 10%);
-    --my-hoverbox-markdown-inline-code-background-light: rgb(
-        255,
-        255,
-        255,
-        10%
-    );
-}
-
-/* Light */
+/* Light theme */
 .monaco-workbench.vs {
-    --my-hoverbox-markdown-inline-code-background: var(
-        --my-hoverbox-markdown-inline-code-background-dark
+    --x-markdown-hover-inline-code-bg: var(
+        --x-markdown-hover-inline-code-bg-dark
     );
 }
 
-/* Dark */
+/* Dark theme */
 .monaco-workbench.vs-dark {
-    --my-hoverbox-markdown-inline-code-background: var(
-        --my-hoverbox-markdown-inline-code-background-light
+    --x-markdown-hover-inline-code-bg: var(
+        --x-markdown-hover-inline-code-bg-light
     );
 }
 
-/* [^1] The box that shows up when hovering over thigns */
-.monaco-editor .monaco-hover .hover-contents:not(.html-hover-contents) {
-    padding: 1rem !important;
-}
-
-.scrollbar > .slider {
-    box-sizing: border-box !important;
-    background-clip: padding-box !important;
-    border: var(--my-scrollbar-border-size) solid transparent !important;
-}
-
-.scrollbar.vertical > .slider {
-    border-bottom-width: var(--my-scrollbar-border-size-reverse) !important;
-    border-top-width: var(--my-scrollbar-border-size-reverse) !important;
-}
-
-.scrollbar.horizontal > .slider {
-    border-right-width: var(--my-scrollbar-border-size-reverse) !important;
-    border-left-width: var(--my-scrollbar-border-size-reverse) !important;
-}
+/* The box that shows up when hovering over thigns */
 
 .monaco-editor .monaco-hover {
     border-width: 2px !important;
-    border-radius: 12px !important;
-}
-
-.monaco-editor .monaco-hover .hover-row:not(:first-child):not(:empty) {
-    border-top-width: 2px !important;
+    border-radius: var(--x-border-radius) !important;
 }
 
 .monaco-editor .monaco-hover a {
@@ -89,6 +56,30 @@
 
 .monaco-hover a {
     cursor: pointer !important;
+}
+
+.monaco-editor .monaco-hover .hover-contents:not(.html-hover-contents) {
+    padding: 1rem !important;
+}
+
+.monaco-editor .monaco-hover .hover-row:not(:first-child):not(:empty) {
+    border-top-width: 2px !important;
+}
+
+.scrollbar > .slider {
+    box-sizing: border-box !important;
+    background-clip: padding-box !important;
+    border: var(--x-scrollbar-border-size) solid transparent !important;
+}
+
+.scrollbar.vertical > .slider {
+    border-bottom-width: var(--x-scrollbar-border-size-reverse) !important;
+    border-top-width: var(--x-scrollbar-border-size-reverse) !important;
+}
+
+.scrollbar.horizontal > .slider {
+    border-right-width: var(--x-scrollbar-border-size-reverse) !important;
+    border-left-width: var(--x-scrollbar-border-size-reverse) !important;
 }
 
 /* Shadow. When it's not the start of a scrollable element, on the starting and ending there is a shadow that looks ugly */
@@ -118,27 +109,27 @@
 }
 
 .monaco-hover .rendered-markdown > * + * {
-    margin-top: var(--my-markdown-items-spacing) !important;
+    margin-top: var(--x-markdown-space-between) !important;
 }
 
 .monaco-hover .rendered-markdown p br {
     display: block !important;
-    margin-top: var(--my-markdown-items-spacing) !important;
+    margin-top: var(--x-markdown-space-between) !important;
     content: "" !important;
 }
 
 .monaco-workbench {
     --vscode-textCodeBlock-background: var(
-        --my-hoverbox-markdown-inline-code-background
+        --x-markdown-hover-inline-code-bg
     ) !important;
 }
 
+/* Code block */
 .monaco-tokenized-source {
-    background: var(--my-hoverbox-markdown-inline-code-background) !important;
+    background: var(--x-markdown-hover-inline-code-bg) !important;
     padding: 1rem !important;
+    border-radius: var(--x-border-radius);
 }
-
-/* [^1] END */
 
 em {
     font-style: normal !important;

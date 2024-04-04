@@ -3,6 +3,37 @@ import { exists } from "std/fs/mod.ts"
 import { copy } from "std/fs/copy.ts"
 import { transform } from "lightningcss"
 
+/**
+ * This function acts as a preprocessor for Svelte.
+ * It transforms Markdown files into HTML, preparing them for further processing by Svelte or other preprocessors.
+ *
+ * ## Getting started
+ *
+ * Add the following into the `svelte.config.js` file (in a SvelteKit project):
+ *
+ * ```ts
+ * import { svelteInMarkdown, DEFAULT_EXTENSIONS } from "svelte-in-markdown"
+ *
+ * const config = {
+ *     extensions: [".svelte", ...DEFAULT_EXTENSIONS],
+ *     preprocess: [
+ *         vitePreprocess(),
+ *         svelteInMarkdown(),
+ *     ]
+ * }
+ * ```
+ *
+ * Add this into your layout file (`+layout.svelte`) to get frontmatter data working:
+ *
+ * ```ts
+ * <script lang="ts">
+ *     import { setContext } from "svelte"
+ *
+ *     setContext("markdownElements_", markdownElements)
+ * //                              ^ (important)
+ * </script>
+ * ```
+ */
 const ARGS = parseArgs(Deno.args, {
     boolean: ["restore-backup"],
     string: ["font-family", "css"],
