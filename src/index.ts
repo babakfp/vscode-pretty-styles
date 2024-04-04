@@ -1,6 +1,5 @@
 import { parseArgs } from "std/cli/parse_args.ts"
 import { exists } from "std/fs/mod.ts"
-import { brown } from "./colors.ts"
 import { transform } from "lightningcss"
 
 const FLAGS = parseArgs(Deno.args, {
@@ -31,9 +30,11 @@ if (!IS_WORKBENCH_CSS_EXISTS) {
     throw new Error('Could not find "workbench.desktop.main.css"!')
 }
 
-console.log(`Found: ${brown(`"${WORKBENCH_CSS_PATH}"`)}.`)
+console.log(`✅ Found: "${WORKBENCH_CSS_PATH}".`)
 
 const WORKBENCH_CSS_CONTENT = await Deno.readTextFile(WORKBENCH_CSS_PATH)
+
+console.log("✅ The file content was read.")
 
 const ENCODER = new TextEncoder()
 const DECODER = new TextDecoder()
@@ -68,3 +69,5 @@ const MODIFIED_WORKBENCH_CSS_CONTENT = DECODER.decode(
 )
 
 await Deno.writeTextFile(WORKBENCH_CSS_PATH, MODIFIED_WORKBENCH_CSS_CONTENT)
+
+console.log("✅ The file content was rewritten.")
