@@ -74,6 +74,7 @@ let modifiedCssContent = DECODER.decode(
         visitor: {
             Rule(RULE) {
                 if (RULE.type !== "style") return
+                if (RULE.value.selectors[0].length > 1) return
                 if (RULE.value.selectors[0][0].type !== "class") return
                 if (RULE.value.selectors[0][0].name !== "windows") return
 
