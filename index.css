@@ -5,26 +5,10 @@
 */
 
 /*
- * Customize the Font of Visual Studio Code's UI
- *
- * Where to put the styles?
- * C:\Users\Babak\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\workbench.desktop.main.css
- *
- * How to open dev tools?
- * (`ctrl` + `shift` + `p`) => Toggle Developer Tools
+## How to open dev tools?
+1. Press `ctrl` + `shift` + `p`.
+2. Select "Toggle Developer Tools".
 */
-
-:root {
-    --en-font-family: "Geist Mono";
-    --fa-font-family: "Vazirmatn";
-    --ui-font-family: var(--en-font-family), var(--fa-font-family);
-}
-
-.windows,
-.scm-editor-placeholder,
-.split-view-view .view-lines {
-    font-family: var(--ui-font-family) !important;
-}
 
 .window-title,
 .menubar-menu-title,

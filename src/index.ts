@@ -4,13 +4,9 @@ import { copy } from "std/fs/copy.ts"
 import { transform } from "lightningcss"
 
 const ARGS = parseArgs(Deno.args, {
-    boolean: "no-minify",
-    string: "font-family",
+    boolean: ["no-minify", "restore-backup"],
+    string: ["font-family"],
 })
-
-if (!ARGS["font-family"]) {
-    throw new Error('The "--font-family" option was not specified!')
-}
 
 if (Deno.build.os !== "windows") {
     throw new Error("This script only works on Windows!")
@@ -28,6 +24,30 @@ const WORKBENCH_DIR = HOME_DIR +
 const CSS_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.css`
 const CSS_BACKUP_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.backup.css`
 
+if (ARGS["restore-backup"]) {
+    if (await exists(CSS_BACKUP_PATH)) {
+        console.log(`✅ Found backup: "${CSS_BACKUP_PATH}".`)
+
+        await copy(CSS_BACKUP_PATH, CSS_PATH, {
+            overwrite: true,
+        })
+
+        console.log(`✅ Restored backup: "${CSS_BACKUP_PATH}".`)
+
+        await Deno.remove(CSS_BACKUP_PATH)
+
+        console.log(`✅ Deleted backup: "${CSS_BACKUP_PATH}".`)
+    } else {
+        console.log(`Could not find: "${CSS_BACKUP_PATH}".`)
+    }
+
+    Deno.exit()
+}
+
+if (!ARGS["font-family"]) {
+    throw new Error('The "--font-family" option was not specified!')
+}
+
 if (!(await exists(CSS_PATH))) {
     throw new Error(`Could not find "${CSS_PATH}"!`)
 }
@@ -36,6 +56,7 @@ console.log(`✅ Found: "${CSS_PATH}".`)
 
 if (!(await exists(CSS_BACKUP_PATH))) {
     await copy(CSS_PATH, CSS_BACKUP_PATH)
+
     console.log(`✅ Created backup: "${CSS_BACKUP_PATH}".`)
 }
 
