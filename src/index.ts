@@ -4,7 +4,7 @@ import { copy } from "std/fs/copy.ts"
 import { transform } from "lightningcss"
 
 const ARGS = parseArgs(Deno.args, {
-    boolean: ["no-minify", "restore-backup"],
+    boolean: ["restore-backup"],
     string: ["font-family", "css"],
 })
 
@@ -71,7 +71,6 @@ let modifiedCssContent = DECODER.decode(
     transform({
         filename: CSS_PATH,
         code: ENCODER.encode(CSS_CONTENT),
-        minify: !ARGS["no-minify"],
         visitor: {
             Rule(RULE) {
                 if (RULE.type !== "style") return
