@@ -21,12 +21,7 @@ app.post("/", async (c) => {
     const formData = isFormValid.output
 
     try {
-        await operation({
-            font: formData?.font,
-            css: formData?.css,
-            backup: formData?.backup,
-        })
-
+        await operation(formData)
         return c.redirect("/")
     } catch (error) {
         return c.string(error.message)
