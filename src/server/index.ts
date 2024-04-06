@@ -1,4 +1,5 @@
 import { Application, BadRequestException } from "abc"
+import { STATUS_CODE } from "std/http/status.ts"
 import { validateForm } from "../utilities/FormSchema.ts"
 import { updateVsCodeStyles } from "../utilities/updateVsCodeStyles.ts"
 
@@ -22,7 +23,7 @@ app.post("/", async (c) => {
 
     try {
         await updateVsCodeStyles(formData)
-        return c.redirect("/")
+        return c.redirect("/", STATUS_CODE.SeeOther)
     } catch (error) {
         throw new BadRequestException(error.message)
     }
