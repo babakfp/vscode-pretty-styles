@@ -1,6 +1,6 @@
 import { Application, BadRequestException } from "abc"
 import { validateForm } from "../utilities/FormSchema.ts"
-import { operation } from "../utilities/operation.ts"
+import { updateVsCodeStyles } from "../utilities/updateVsCodeStyles.ts"
 
 const app = new Application()
 
@@ -21,7 +21,7 @@ app.post("/", async (c) => {
     const formData = isFormValid.output
 
     try {
-        await operation(formData)
+        await updateVsCodeStyles(formData)
         return c.redirect("/")
     } catch (error) {
         throw new BadRequestException(error.message)

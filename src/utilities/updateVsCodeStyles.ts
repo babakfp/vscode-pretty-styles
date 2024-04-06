@@ -8,7 +8,7 @@ type Options = {
     backup?: boolean
 }
 
-export const operation = async (options?: Options) => {
+export const updateVsCodeStyles = async (options?: Options) => {
     if (Deno.build.os !== "windows") {
         throw new Error("This script only works on Windows!")
     }
