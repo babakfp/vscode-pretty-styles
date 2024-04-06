@@ -1,4 +1,4 @@
-import { Application } from "abc"
+import { Application, BadRequestException } from "abc"
 import { validateForm } from "../utilities/FormSchema.ts"
 import { operation } from "../utilities/operation.ts"
 
@@ -24,7 +24,7 @@ app.post("/", async (c) => {
         await operation(formData)
         return c.redirect("/")
     } catch (error) {
-        return c.string(error.message)
+        throw new BadRequestException(error.message)
     }
 })
 
