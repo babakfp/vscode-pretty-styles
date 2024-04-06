@@ -1,0 +1,20 @@
+body {
+    display: flex;
+    align-items: center;
+}
+
+form {
+    margin-bottom: 0;
+}
+
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    margin-bottom: 0;
+}
+
+[type="button"]:not(:last-child),
+[type="reset"]:not(:last-child),
+[type="submit"]:not(:last-child) {
+    margin-bottom: var(--pico-spacing) !important;
+}

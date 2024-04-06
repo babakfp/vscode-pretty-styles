@@ -1,0 +1,58 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="light dark" />
+        <script
+            defer
+            rel="preload"
+            src="https://unpkg.com/alpinejs@3.13.8"
+        ></script>
+        <script
+            defer
+            rel="preload"
+            src="https://unpkg.com/htmx.org@1.9.11"
+            integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0"
+            crossorigin="anonymous"
+        ></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6"
+        />
+        <link rel="stylesheet" href="/index.css" />
+        <style rel="preload">
+            @import url("https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
+            body {
+                font-family: "Titillium Web";
+            }
+        </style>
+        <title>vsCode Pretty Styles</title>
+    </head>
+    <body>
+        <main class="container">
+            <form method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <label>
+                        Editor UI Font-Family
+                        <input
+                            name="font"
+                            placeholder="Editor UI Font-Family"
+                        />
+                    </label>
+                    <label>
+                        Custom CSS
+                        <textarea
+                            name="css"
+                            placeholder="Custom CSS"
+                        ></textarea>
+                    </label>
+                </fieldset>
+
+                <button type="submit" name="submit">Submit</button>
+                <button type="submit" name="backup" class="secondary">
+                    Restore Backup
+                </button>
+            </form>
+        </main>
+    </body>
+</html>
