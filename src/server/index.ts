@@ -1,54 +1,39 @@
-import { Hono } from "hono/mod.ts"
-import { serveStatic } from "hono/middleware.ts"
-import { join } from "std/path/join.ts"
-import * as v from "valibot"
+import { Application } from "abc"
+import { validateForm } from "../utilities/FormSchema.ts"
 import { operation } from "../utilities/operation.ts"
 
-const app = new Hono()
+const app = new Application()
 
-app.get("/", (c) =>
-    c.html(Deno.readTextFileSync(join(Deno.cwd(), "/src/pages/index.html")))
-)
+const port = 3000
 
-const FormSchema = v.optional(
-    v.object({
-        font: v.optional(v.string()),
-        css: v.optional(v.string()),
-        backup: v.optional(
-            v.special<boolean>((input) => typeof input === "string")
-        ),
-    })
-)
+app.static("/", "/src/public")
 
+app.get("/", (c) => c.file("/src/pages/index.html"))
 app.post("/", async (c) => {
-    const formData = v.safeParse(FormSchema, await c.req.parseBody())
+    const body = await c.body
 
-    if (!formData.success) {
-        return c.redirect("/")
+    const isFormValid = validateForm(body)
+
+    if (!isFormValid.success) {
+        return c.string("Invalid data received!")
     }
+
+    const formData = isFormValid.output
 
     try {
         await operation({
-            font: formData.output?.font,
-            css: formData.output?.css,
-            backup: formData.output?.backup,
+            font: formData?.font,
+            css: formData?.css,
+            backup: formData?.backup,
         })
 
         return c.redirect("/")
-    } catch (error: unknown) {
-        if (!(error instanceof Error)) throw error
-        return c.text(error.message)
+    } catch (error) {
+        return c.string(error.message)
     }
 })
 
-app.use("*", serveStatic({ root: "/src/static" }))
+console.log("Your HTTP server is running!")
+console.log(`http://localhost:${port}`)
 
-Deno.serve(
-    {
-        onListen: ({ port }) => {
-            console.log("✅ The HTTP server is running.")
-            console.log(`👉 http://localhost:${port}`)
-        },
-    },
-    app.fetch
-)
+app.start({ port })
