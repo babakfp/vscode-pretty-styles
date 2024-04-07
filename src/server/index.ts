@@ -7,9 +7,8 @@ const app = new Application()
 
 const port = 3000
 
-app.static("/", "/src/public")
-
 app.get("/", (c) => c.file("/src/pages/index.html"))
+
 app.post("/", async (c) => {
     const body = await c.body
 
@@ -28,6 +27,8 @@ app.post("/", async (c) => {
         throw new BadRequestException(error.message)
     }
 })
+
+app.static("/", "/src/static")
 
 console.log("Your HTTP server is running!")
 console.log(`http://localhost:${port}`)
