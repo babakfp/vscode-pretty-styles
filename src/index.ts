@@ -1,17 +1,14 @@
 import { Application } from "abc"
 import { STATUS_CODE } from "@std/http/status"
-import { validateForm } from "../utilities/FormSchema.ts"
-import { updateVsCodeStyles } from "../utilities/updateVsCodeStyles.ts"
-import { renderer } from "../utilities/renderer.ts"
+import { validateForm } from "./lib/FormSchema.ts"
+import { updateVsCodeStyles } from "./lib/updateVsCodeStyles.ts"
+import { abcEdgeRenderer } from "./lib/abcEdgeRenderer.ts"
 
 const port = 3000
 
 const app = new Application()
 
-// @ts-expect-error They use old version of Deno and there is nothing that I can do!
-app.renderer = renderer
-
-app.get("/", (c) => c.render("/src/pages/index.edge"))
+app.get("/", (c) => c.render("/pages/index.edge"))
 
 app.post("/", async (c) => {
     const body = await c.body
@@ -22,7 +19,7 @@ app.post("/", async (c) => {
         c.response.status = STATUS_CODE.BadRequest
         c.response.statusText = "Invalid data submitted!"
 
-        return c.render("/src/pages/index.edge", {
+        return c.render("/pages/index.edge", {
             statusText: c.response.statusText,
         })
     }
@@ -42,12 +39,14 @@ app.post("/", async (c) => {
     c.response.status =
         result.type === "ERROR" ? STATUS_CODE.BadRequest : STATUS_CODE.OK
 
-    return c.render("/src/pages/index.edge", {
+    return c.render("/pages/index.edge", {
         statusText: c.response.statusText,
     })
 })
 
-app.static("/", "/src/static")
+app.renderer = abcEdgeRenderer
+
+app.static("/", "/public")
 
 console.log("Your HTTP server is running!")
 console.log(`http://localhost:${port}`)
