@@ -7,20 +7,17 @@ const FormSchema = v.optional(
     v.object({
         font: v.optional(v.string()),
         css: v.optional(
-            v.transform(
-                v.special<FormFile>((input) => {
-                    if (input === "") return true
-                    if (!isFormFile(input)) return false
-                    return input.type === "text/css"
-                }),
-                (input) => {
-                    const DECODER = new TextDecoder()
-                    return DECODER.decode(input.content)
-                }
-            )
+            v.union([
+                v.string(),
+                v.transform(
+                    v.special<FormFile>((input) => {
+                        if (!isFormFile(input)) return false
+                        return input.type === "text/css"
+                    }),
+                    (input) => new TextDecoder().decode(input.content)
+                ),
+            ])
         ),
-        backup: v.optional(
-            v.special<boolean>((input) => typeof input === "string")
-        ),
+        backup: v.coerce(v.boolean(), (input) => input === ""),
     })
 )
