@@ -8,6 +8,7 @@
         "@std/http": "jsr:@std/http@^0.221.0",
         "@valibot/valibot": "jsr:@valibot/valibot@^0.30.0",
         "abc": "https://deno.land/x/abc@v1.3.3/mod.ts",
-        "lightningcss": "npm:lightningcss@1.24.1"
+        "lightningcss": "npm:lightningcss@1.24.1",
+        "multipart": "https://deno.land/std@0.99.0/mime/multipart.ts"
     }
 }
