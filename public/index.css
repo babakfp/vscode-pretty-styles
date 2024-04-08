@@ -53,3 +53,9 @@ form {
     border-radius: var(--pico-border-radius);
     margin-bottom: 4rem;
 }
+
+/* --- */
+
+footer {
+    margin-top: var(--pico-spacing);
+}
