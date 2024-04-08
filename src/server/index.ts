@@ -1,5 +1,5 @@
 import { Application, BadRequestException } from "abc"
-import { STATUS_CODE } from "std/http/status.ts"
+import { STATUS_CODE } from "@std/http/status"
 import { validateForm } from "../utilities/FormSchema.ts"
 import { updateVsCodeStyles } from "../utilities/updateVsCodeStyles.ts"
 

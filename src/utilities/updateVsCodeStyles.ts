@@ -1,5 +1,5 @@
-import { exists } from "std/fs/mod.ts"
-import { copy } from "std/fs/copy.ts"
+import { exists } from "@std/fs/exists"
+import { copy } from "@std/fs/copy"
 import { transform } from "lightningcss"
 
 type Options = {

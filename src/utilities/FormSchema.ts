@@ -1,4 +1,4 @@
-import * as v from "valibot"
+import * as v from "@valibot/valibot"
 
 export const validateForm = (value: unknown) => v.safeParse(FormSchema, value)
 

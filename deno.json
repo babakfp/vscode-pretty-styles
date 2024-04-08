@@ -4,9 +4,10 @@
         "compile": "deno compile -A --output vscode-pretty-styles src/server/index.ts"
     },
     "imports": {
+        "@std/fs": "jsr:@std/fs@^0.221.0",
+        "@std/http": "jsr:@std/http@^0.221.0",
+        "@valibot/valibot": "jsr:@valibot/valibot@^0.30.0",
         "abc": "https://deno.land/x/abc@v1.3.3/mod.ts",
-        "lightningcss": "npm:lightningcss@1.24.1",
-        "std/": "https://deno.land/std@0.221.0/",
-        "valibot": "https://deno.land/x/valibot@v0.30.0/mod.ts"
+        "lightningcss": "npm:lightningcss@1.24.1"
     }
 }
