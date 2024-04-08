@@ -46,6 +46,10 @@
                 <button type="submit" name="backup" class="secondary">
                     Restore Backup
                 </button>
+
+                @if ( statusText )
+                    <p>{{ statusText }}</p>
+                @end
             </form>
         </main>
     </body>

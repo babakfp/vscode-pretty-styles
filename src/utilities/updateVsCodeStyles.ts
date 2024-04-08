@@ -8,15 +8,35 @@ type Options = {
     backup?: boolean
 }
 
-export const updateVsCodeStyles = async (options?: Options) => {
+type Result =
+    | {
+          type: "ERROR" | "INFO"
+          message: string
+      }
+    | {
+          type: "SUCCESSFUL"
+          tasks: string[]
+      }
+
+export const updateVsCodeStyles = async (
+    options?: Options
+): Promise<Result> => {
+    const tasks: string[] = []
+
     if (Deno.build.os !== "windows") {
-        throw new Error("This script only works on Windows!")
+        return {
+            type: "ERROR",
+            message: "This script only works on Windows!",
+        }
     }
 
     const HOME_DIR = Deno.env.get("USERPROFILE")
 
     if (!HOME_DIR) {
-        throw new Error('Could not find "USERPROFILE"!')
+        return {
+            type: "ERROR",
+            message: 'Could not find "USERPROFILE"!',
+        }
     }
 
     const WORKBENCH_DIR = `${HOME_DIR}\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench`
@@ -25,40 +45,51 @@ export const updateVsCodeStyles = async (options?: Options) => {
     const CSS_BACKUP_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.backup.css`
 
     if (options?.["backup"]) {
-        if (await exists(CSS_BACKUP_PATH)) {
-            console.log(`✅ Found backup: "${CSS_BACKUP_PATH}".`)
-
-            await copy(CSS_BACKUP_PATH, CSS_PATH, {
-                overwrite: true,
-            })
-
-            console.log(`✅ Restored backup: "${CSS_BACKUP_PATH}".`)
-
-            await Deno.remove(CSS_BACKUP_PATH)
-
-            console.log(`✅ Deleted backup: "${CSS_BACKUP_PATH}".`)
-        } else {
-            console.log(`Could not find: "${CSS_BACKUP_PATH}".`)
+        if (!(await exists(CSS_BACKUP_PATH))) {
+            return {
+                type: "ERROR",
+                message: `Could not find: "${CSS_BACKUP_PATH}".`,
+            }
         }
 
-        return
+        tasks.push(`✅ Found backup: "${CSS_BACKUP_PATH}".`)
+
+        await copy(CSS_BACKUP_PATH, CSS_PATH, {
+            overwrite: true,
+        })
+
+        tasks.push(`✅ Restored backup: "${CSS_BACKUP_PATH}".`)
+
+        await Deno.remove(CSS_BACKUP_PATH)
+
+        tasks.push(`✅ Deleted backup: "${CSS_BACKUP_PATH}".`)
+
+        return {
+            type: "SUCCESSFUL",
+            tasks,
+        }
     }
 
     if (!(await exists(CSS_PATH))) {
-        throw new Error(`Could not find "${CSS_PATH}"!`)
+        return {
+            type: "ERROR",
+            message: `Could not find "${CSS_PATH}"!`,
+        }
     }
 
     if (!options?.["font"] && !options?.["css"]) {
-        console.log("There was nothing to do!")
-        return
+        return {
+            type: "INFO",
+            message: "There was absolutely nothing to be done.",
+        }
     }
 
-    console.log(`✅ Found: "${CSS_PATH}".`)
+    tasks.push(`✅ Found: "${CSS_PATH}".`)
 
     if (!(await exists(CSS_BACKUP_PATH))) {
         await copy(CSS_PATH, CSS_BACKUP_PATH)
 
-        console.log(`✅ Created backup: "${CSS_BACKUP_PATH}".`)
+        tasks.push(`✅ Created backup: "${CSS_BACKUP_PATH}".`)
     }
 
     const CSS_CONTENT = await Deno.readTextFile(CSS_BACKUP_PATH)
@@ -113,5 +144,10 @@ export const updateVsCodeStyles = async (options?: Options) => {
 
     await Deno.writeTextFile(CSS_PATH, newCssContent)
 
-    console.log("✅ The file content was rewritten.")
+    tasks.push("✅ The file content was rewritten.")
+
+    return {
+        type: "SUCCESSFUL",
+        tasks,
+    }
 }
