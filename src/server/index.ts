@@ -3,9 +3,9 @@ import { STATUS_CODE } from "@std/http/status"
 import { validateForm } from "../utilities/FormSchema.ts"
 import { updateVsCodeStyles } from "../utilities/updateVsCodeStyles.ts"
 
-const app = new Application()
-
 const port = 3000
+
+const app = new Application()
 
 app.get("/", (c) => c.file("/src/pages/index.html"))
 
