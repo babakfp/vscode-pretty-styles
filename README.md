@@ -17,8 +17,14 @@ This application modifies the files of installed vsCode. It doesn't make any bre
 
 ## Limitations
 
--   Only works on Windows OS.
--   Only works on my system. I use Windows 11 and OneDrive is disabled. I'm not sure how it will behave on other people's computers.
+-   It only works on Windows OS.
+-   It only works on my system. I don't know if it will work on other people's computers.
+
+    Windows specifications:
+
+    -   Edition: Windows 11 Pro
+    -   Version: 23H2
+    -   OneDrive: Disabled
 
 ## Contributions
 
