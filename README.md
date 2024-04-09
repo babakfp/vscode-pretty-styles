@@ -10,3 +10,7 @@ C:\Users\Babak\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\wor
 
 1. Press `ctrl` + `shift` + `p`.
 2. Select "Toggle Developer Tools".
+
+## Notes
+
+-   Use LightningCSS when https://github.com/denoland/deno/issues/23266 gets fixed.

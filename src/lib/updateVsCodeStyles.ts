@@ -1,6 +1,5 @@
 import { exists } from "@std/fs/exists"
 import { copy } from "@std/fs/copy"
-import { transform } from "lightningcss"
 
 type Options = {
     font?: string
@@ -94,38 +93,12 @@ export const updateVsCodeStyles = async (
 
     const CSS_CONTENT = await Deno.readTextFile(CSS_BACKUP_PATH)
 
-    const ENCODER = new TextEncoder()
-    const DECODER = new TextDecoder()
-
     let newCssContent = CSS_CONTENT
 
     if (options?.["font"]) {
-        newCssContent = DECODER.decode(
-            transform({
-                filename: CSS_BACKUP_PATH,
-                code: ENCODER.encode(CSS_CONTENT),
-                visitor: {
-                    Rule(RULE) {
-                        if (RULE.type !== "style") return
-                        if (RULE.value.selectors[0].length > 1) return
-                        if (RULE.value.selectors[0][0].type !== "class") return
-                        if (RULE.value.selectors[0][0].name !== "windows")
-                            return
-
-                        if (
-                            RULE.value.declarations.declarations[0].property !==
-                            "font-family"
-                        )
-                            return
-
-                        RULE.value.declarations.declarations[0].value = options[
-                            "font"
-                        ]!.split(",").map((FONT) => FONT.trim())
-
-                        return RULE
-                    },
-                },
-            }).code
+        newCssContent = newCssContent.replace(
+            "Segoe WPC,Segoe UI,sans-serif",
+            options["font"]
         )
 
         newCssContent +=
