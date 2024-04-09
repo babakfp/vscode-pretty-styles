@@ -1,4 +1,5 @@
 {
+    "version": "0.0.1",
     "tasks": {
         "dev": "deno run -A --unstable-hmr src/index.ts",
         "compile": "deno compile -A --output vscode-pretty-styles src/index.ts"
