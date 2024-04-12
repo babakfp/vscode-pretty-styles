@@ -1,10 +1,11 @@
+import { getAvailablePort } from "@std/net"
 import { Application } from "abc"
 import { STATUS_CODE } from "@std/http/status"
 import { validateForm } from "./lib/FormSchema.ts"
 import { updateVsCodeStyles } from "./lib/updateVsCodeStyles.ts"
 import { abcEdgeRenderer } from "./lib/abcEdgeRenderer.ts"
 
-const port = 3000
+const port = getAvailablePort()
 
 const app = new Application()
 

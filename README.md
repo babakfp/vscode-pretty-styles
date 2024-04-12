@@ -13,7 +13,7 @@ This application modifies vsCode installation files. It doesn't make any breakin
 1. Downloaded the latest [release](https://github.com/babakfp/vscode-pretty-styles/releases/latest).
 2. Extract the `.zip` file.
 3. Run the executable file.
-4. Open http://localhost:3000.
+4. Open the URL that is shown in the console, in your browser.
 
 ## Limitations
 
