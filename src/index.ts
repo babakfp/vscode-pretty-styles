@@ -5,7 +5,7 @@ import { validateForm } from "./lib/FormSchema.ts"
 import { updateVsCodeStyles } from "./lib/updateVsCodeStyles.ts"
 import { abcEdgeRenderer } from "./lib/abcEdgeRenderer.ts"
 
-const port = getAvailablePort()
+const port = Deno.args.includes("--dev") ? "3000" : getAvailablePort()
 
 const app = new Application()
 
