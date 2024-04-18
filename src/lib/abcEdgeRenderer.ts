@@ -4,11 +4,12 @@ import { join } from "@std/path/join"
 
 const edge = new Edge()
 
+edge.mount(join(Deno.cwd(), "/views"))
+
 // TODO: Remove `Renderer` if the below `@ts-expect-error` gets fixed.
 export const abcEdgeRenderer: Renderer = {
     // @ts-expect-error They use old version of Deno and there is nothing that I can do!
     render: async (path, data: Record<string, unknown>) => {
-        const content = Deno.readTextFileSync(join(Deno.cwd(), path))
-        return await edge.renderRaw(content, data)
+        return await edge.render(path, data)
     },
 }

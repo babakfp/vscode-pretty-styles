@@ -9,7 +9,7 @@ const port = Deno.args.includes("--dev") ? "3000" : getAvailablePort()
 
 const app = new Application()
 
-app.get("/", (c) => c.render("/pages/index.edge"))
+app.get("/", (c) => c.render("pages/index"))
 
 app.post("/", async (c) => {
     const body = await c.body
@@ -20,7 +20,7 @@ app.post("/", async (c) => {
         c.response.status = STATUS_CODE.BadRequest
         c.response.statusText = "Invalid data submitted!"
 
-        return c.render("/pages/index.edge", {
+        return c.render("pages/index", {
             statusText: c.response.statusText,
         })
     }
@@ -40,7 +40,7 @@ app.post("/", async (c) => {
     c.response.status =
         result.type === "ERROR" ? STATUS_CODE.BadRequest : STATUS_CODE.OK
 
-    return c.render("/pages/index.edge", {
+    return c.render("pages/index", {
         statusText: c.response.statusText,
     })
 })
