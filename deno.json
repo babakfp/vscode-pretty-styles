@@ -1,8 +1,8 @@
 {
     "version": "0.0.2",
     "tasks": {
-        "dev": "deno run -A --unstable-hmr src/index.ts --dev",
-        "compile": "deno compile -A --output vscode-pretty-styles src/index.ts"
+        "dev": "deno run -A --unstable-hmr src/index.ts",
+        "compile": "deno compile -A --output vscode-pretty-styles src/index.ts --production"
     },
     "imports": {
         "@std/fs": "jsr:@std/fs@^0.221.0",

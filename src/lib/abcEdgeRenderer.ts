@@ -3,7 +3,7 @@ import type { Renderer } from "abc"
 import { join } from "@std/path/join"
 
 const edge = Edge.create({
-    cache: !Deno.args.includes("--dev"),
+    cache: Deno.args.includes("--production"),
 })
 
 edge.mount(join(Deno.cwd(), "/views"))
