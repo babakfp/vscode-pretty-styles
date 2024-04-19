@@ -1,14 +1,12 @@
 import Layout from "../components/Layout.tsx"
 
 export default (props?: { statusText?: string }) => {
+    const title = "vsCode Pretty Styles"
+
     return (
-        <Layout title="vsCode Pretty Styles">
+        <Layout title={title}>
             <main class="container">
-                <img
-                    class="vscode-logo"
-                    src={`/vscode${props?.statusText ? "" : "-alt"}.svg`}
-                    alt="vsCode logo"
-                />
+                <h1>{title}</h1>
 
                 <form method="post" enctype="multipart/form-data">
                     <fieldset>
@@ -37,7 +35,6 @@ export default (props?: { statusText?: string }) => {
                     <a href="https://github.com/babakfp" target="_blank">
                         Babak
                     </a>
-                    {""} with ❤️ :)
                 </footer>
             </main>
         </Layout>

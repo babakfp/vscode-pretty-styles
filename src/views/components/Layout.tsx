@@ -11,7 +11,6 @@ export default (props: { title: string; children: JSX.Element }) => {
                     href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6"
                 />
                 <link rel="stylesheet" href="/index.css" />
-                <link rel="stylesheet" href="/fonts.css" />
                 <title>{props.title}</title>
             </head>
             <body>{props.children}</body>
