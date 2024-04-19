@@ -1,57 +1,37 @@
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="color-scheme" content="light dark" />
-        <link rel="icon" href="/favicon.svg" />
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6"
+@component("components/layouts/base", { title: "vsCode Pretty Styles" })
+    <main class="container">
+        <img
+            class="vscode-logo"
+            src="/vscode{{ statusText ? '' : '-alt' }}.svg"
+            alt="vsCode logo"
         />
-        <link rel="stylesheet" href="/index.css" />
-        <style rel="preload">
-            @import url("https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
-            body {
-                font-family: "Titillium Web";
-            }
-        </style>
-        <title>vsCode Pretty Styles</title>
-    </head>
-    <body>
-        <main class="container">
-            <img
-                class="vscode-logo"
-                src="/vscode{{ statusText ? '' : '-alt' }}.svg"
-                alt="vsCode logo"
-            />
 
-            <form method="post" enctype="multipart/form-data">
-                <fieldset>
-                    <label>
-                        Editor UI Font-Family
-                        <input name="font" />
-                    </label>
-                    <label>
-                        Custom CSS
-                        <input name="css" type="file" accept="text/css" />
-                    </label>
-                </fieldset>
+        <form method="post" enctype="multipart/form-data">
+            <fieldset>
+                <label>
+                    Editor UI Font-Family
+                    <input name="font" />
+                </label>
+                <label>
+                    Custom CSS
+                    <input name="css" type="file" accept="text/css" />
+                </label>
+            </fieldset>
 
-                <button type="submit" name="submit">Submit</button>
-                <button type="submit" name="backup" class="secondary">
-                    Restore Backup
-                </button>
+            <button type="submit" name="submit">Submit</button>
+            <button type="submit" name="backup" class="secondary">
+                Restore Backup
+            </button>
 
-                @if ( statusText )
-                    <p>{{ statusText }}</p>
-                @end
-            </form>
+            @if ( statusText )
+                <p>{{ statusText }}</p>
+            @end
+        </form>
 
-            <footer>
-                Made by
-                <a href="https://github.com/babakfp" target="_blank">Babak</a>
-                with ❤️ :)
-            </footer>
-        </main>
-    </body>
-</html>
+        <footer>
+            Made by
+            <a href="https://github.com/babakfp" target="_blank">Babak</a>
+            with ❤️ :)
+        </footer>
+    </main>
+@end
