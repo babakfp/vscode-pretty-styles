@@ -1,15 +1,17 @@
 import { getAvailablePort } from "@std/net"
 import { Application } from "abc"
 import { STATUS_CODE } from "@std/http/status"
+import { renderToString } from "jsx"
 import { validateForm } from "./lib/FormSchema.ts"
 import { updateVsCodeStyles } from "./lib/updateVsCodeStyles.ts"
-import { abcEdgeRenderer } from "./lib/abcEdgeRenderer.ts"
+
+import Index from "./views/pages/Index.tsx"
 
 const port = Deno.args.includes("--production") ? getAvailablePort() : 3000
 
 const app = new Application()
 
-app.get("/", (c) => c.render("pages/index"))
+app.get("/", async (c) => c.html(await renderToString(<Index />)))
 
 app.post("/", async (c) => {
     const body = await c.body
@@ -20,9 +22,9 @@ app.post("/", async (c) => {
         c.response.status = STATUS_CODE.BadRequest
         c.response.statusText = "Invalid data submitted!"
 
-        return c.render("pages/index", {
-            statusText: c.response.statusText,
-        })
+        return c.html(
+            await renderToString(<Index statusText={c.response.statusText} />)
+        )
     }
 
     const formData = isFormValid.output
@@ -40,12 +42,10 @@ app.post("/", async (c) => {
     c.response.status =
         result.type === "ERROR" ? STATUS_CODE.BadRequest : STATUS_CODE.OK
 
-    return c.render("pages/index", {
-        statusText: c.response.statusText,
-    })
+    return c.html(
+        await renderToString(<Index statusText={c.response.statusText} />)
+    )
 })
-
-app.renderer = abcEdgeRenderer
 
 app.static("/", "/public")
 
