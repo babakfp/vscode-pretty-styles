@@ -31,10 +31,12 @@ export default (props?: { statusText?: string }) => {
                 </form>
 
                 <footer>
-                    Made by {""}
-                    <a href="https://github.com/babakfp" target="_blank">
-                        Babak
-                    </a>
+                    <p>
+                        Made by {""}
+                        <a href="https://github.com/babakfp" target="_blank">
+                            Babak
+                        </a>
+                    </p>
                 </footer>
             </main>
         </Layout>
