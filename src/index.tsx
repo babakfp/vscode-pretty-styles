@@ -1,6 +1,7 @@
 import { getAvailablePort } from "@std/net"
 import { Application } from "abc"
 import { STATUS_CODE } from "@std/http/status"
+import { open } from "open"
 import { renderToString } from "jsx"
 import { validateForm } from "./lib/FormSchema.ts"
 import { updateVsCodeStyles } from "./lib/updateVsCodeStyles.ts"
@@ -51,5 +52,9 @@ app.static("/", "/public")
 
 console.log("Your HTTP server is running!")
 console.log(`http://localhost:${port}`)
+
+if (Deno.args.includes("--production")) {
+    open(`http://localhost:${port}`)
+}
 
 app.start({ port })

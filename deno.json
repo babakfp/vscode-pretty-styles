@@ -13,6 +13,7 @@
         "abc": "https://deno.land/x/abc@v1.3.3/mod.ts",
         "edge.js": "npm:edge.js@^6.0.2",
         "multipart": "https://deno.land/std@0.99.0/mime/multipart.ts",
+        "open": "https://deno.land/x/open@v0.0.6/index.ts",
         "preact/jsx-runtime": "https://cdn.skypack.dev/preact/jsx-runtime?dts",
         "preact/jsx-dev-runtime": "https://cdn.skypack.dev/preact/jsx-dev-runtime?dts",
         "jsx": "https://deno.land/x/jsx@v0.1.5/mod.ts"
