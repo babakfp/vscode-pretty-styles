@@ -2,7 +2,9 @@ import { Edge } from "edge.js"
 import type { Renderer } from "abc"
 import { join } from "@std/path/join"
 
-const edge = new Edge()
+const edge = Edge.create({
+    cache: !Deno.args.includes("--dev"),
+})
 
 edge.mount(join(Deno.cwd(), "/views"))
 
