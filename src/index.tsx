@@ -12,7 +12,17 @@ const port = Deno.args.includes("--production") ? getAvailablePort() : 3000
 
 const app = new Application()
 
-app.get("/", async (c) => c.html(await renderToString(<Index />)))
+app.get("/", async (c) => {
+    return c.html(
+        await renderToString(
+            <Index
+                font={decodeURIComponent(
+                    c.cookies["vscode-custom-styles-font"]
+                )}
+            />
+        )
+    )
+})
 
 app.post("/", async (c) => {
     const body = await c.body
@@ -30,6 +40,13 @@ app.post("/", async (c) => {
 
     const formData = isFormValid.output
 
+    if (formData?.font) {
+        c.setCookie({
+            name: "vscode-custom-styles-font",
+            value: encodeURIComponent(formData.font),
+        })
+    }
+
     const result = await updateVsCodeStyles(formData)
 
     if (result.type === "ERROR" || result.type === "INFO") {
@@ -44,7 +61,9 @@ app.post("/", async (c) => {
         result.type === "ERROR" ? STATUS_CODE.BadRequest : STATUS_CODE.OK
 
     return c.html(
-        await renderToString(<Index statusText={c.response.statusText} />)
+        await renderToString(
+            <Index statusText={c.response.statusText} font={formData?.font} />
+        )
     )
 })
 

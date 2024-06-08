@@ -1,6 +1,6 @@
 import Layout from "../components/Layout.tsx"
 
-export default (props?: { statusText?: string }) => {
+export default (props?: { statusText?: string; font?: string }) => {
     const title = "vsCode Pretty Styles"
 
     return (
@@ -12,7 +12,7 @@ export default (props?: { statusText?: string }) => {
                     <fieldset>
                         <label>
                             Editor UI Font-Family
-                            <input name="font" />
+                            <input name="font" value={props?.font} />
                         </label>
                         <label>
                             Custom CSS
