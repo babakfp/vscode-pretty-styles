@@ -62,7 +62,11 @@ app.post("/", async (c) => {
 
     return c.html(
         await renderToString(
-            <Index statusText={c.response.statusText} font={formData?.font} />
+            <Index
+                statusCode={c.response.status}
+                statusText={c.response.statusText}
+                font={formData?.font}
+            />
         )
     )
 })

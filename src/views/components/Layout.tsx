@@ -10,6 +10,10 @@ export default (props: { title: string; children: JSX.Element }) => {
                     rel="stylesheet"
                     href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6"
                 />
+                <link
+                    rel="stylesheet"
+                    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6/css/pico.colors.min.css"
+                />
                 <link rel="stylesheet" href="/index.css" />
                 <title>{props.title}</title>
             </head>

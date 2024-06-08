@@ -1,6 +1,10 @@
 import Layout from "../components/Layout.tsx"
 
-export default (props?: { statusText?: string; font?: string }) => {
+export default (props?: {
+    statusCode?: number
+    statusText?: string
+    font?: string
+}) => {
     const title = "vsCode Pretty Styles"
 
     return (
@@ -27,7 +31,19 @@ export default (props?: { statusText?: string; font?: string }) => {
                         Restore Backup
                     </button>
 
-                    {props?.statusText ? <p>{props?.statusText}</p> : ""}
+                    {props?.statusText ? (
+                        <p
+                            class={
+                                props?.statusCode === 200
+                                    ? "pico-color-green-300"
+                                    : "pico-color-pink-300"
+                            }
+                        >
+                            {props?.statusText}
+                        </p>
+                    ) : (
+                        ""
+                    )}
                 </form>
 
                 <footer>
