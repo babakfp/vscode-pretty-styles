@@ -11,9 +11,8 @@ This application modifies vsCode installation files. It doesn't make any breakin
 ## Guide
 
 1. Downloaded the latest [release](https://github.com/babakfp/vscode-pretty-styles/releases/latest).
-2. Extract the `.zip` file.
-3. Run the executable file.
-4. Open the URL that is shown in the console, in your browser.
+2. Extract the downloaded file.
+3. Run the executable `vscode-pretty-styles.exe`.
 
 ## Limitations
 
@@ -47,6 +46,6 @@ C:\Users\Babak\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\wor
 1. Press `ctrl` + `shift` + `p`.
 2. Select "Toggle Developer Tools".
 
-## Notes
+## Todo list
 
 -   Use LightningCSS when https://github.com/denoland/deno/issues/23266 gets fixed.
