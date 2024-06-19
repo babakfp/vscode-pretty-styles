@@ -57,7 +57,7 @@ export const updateVsCodeStyles = async (
             overwrite: true,
         })
 
-        tasks.push(`✅ Restored backup: "${CSS_BACKUP_PATH}".`)
+        tasks.push(`✅ Reverted changes: "${CSS_BACKUP_PATH}".`)
 
         await Deno.remove(CSS_BACKUP_PATH)
 

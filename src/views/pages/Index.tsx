@@ -28,7 +28,7 @@ export default (props?: {
                         Submit
                     </button>
                     <button type="submit" name="backup" class="secondary">
-                        Restore Backup
+                        Revert Changes
                     </button>
 
                     {props?.statusText ? (
