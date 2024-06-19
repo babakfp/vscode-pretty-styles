@@ -5,11 +5,11 @@
         "compile": "deno compile -A --output vscode-pretty-styles src/index.tsx --import-map --production"
     },
     "imports": {
-        "@std/fs": "jsr:@std/fs@^0.221.0",
-        "@std/http": "jsr:@std/http@^0.221.0",
-        "@std/net": "jsr:@std/net@^0.222.1",
-        "@std/path": "jsr:@std/path@^0.221.0",
-        "@valibot/valibot": "jsr:@valibot/valibot@^0.30.0",
+        "@std/fs": "jsr:@std/fs@0.221.0",
+        "@std/http": "jsr:@std/http@0.221.0",
+        "@std/net": "jsr:@std/net@0.222.1",
+        "@std/path": "jsr:@std/path@0.221.0",
+        "@valibot/valibot": "jsr:@valibot/valibot@0.30.0",
         "abc": "https://deno.land/x/abc@v1.3.3/mod.ts",
         "multipart": "https://deno.land/std@0.99.0/mime/multipart.ts",
         "open": "https://deno.land/x/open@v0.0.6/index.ts",
