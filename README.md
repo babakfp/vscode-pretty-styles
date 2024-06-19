@@ -2,7 +2,7 @@
 
 A **Windows** application that allows you to Customize vsCode Editor UI Font-Family and add your own Custom CSS styles.
 
-![](/Screenshot.png)
+![](/app.png)
 
 ## How it works
 
