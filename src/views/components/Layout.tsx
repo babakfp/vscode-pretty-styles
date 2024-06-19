@@ -6,13 +6,10 @@ export default (props: { title: string; children: JSX.Element }) => {
                 <meta name="viewport" content="width=device-width" />
                 <meta name="color-scheme" content="light dark" />
                 <link rel="icon" href="/favicon.svg" />
+                <link rel="stylesheet" href="/npm/@picocss/pico@2.0.6" />
                 <link
                     rel="stylesheet"
-                    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6"
-                />
-                <link
-                    rel="stylesheet"
-                    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6/css/pico.colors.min.css"
+                    href="/npm/@picocss/pico@2.0.6/css/pico.colors.min.css"
                 />
                 <link rel="stylesheet" href="/index.css" />
                 <title>{props.title}</title>
