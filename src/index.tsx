@@ -36,6 +36,18 @@ app.post("/", async (c) => {
 
     const formData = isFormValid.output
 
+    if (!formData?.backup && !formData?.font && !formData?.css) {
+        return c.html(
+            await renderToString(
+                <Index
+                    statusCode={STATUS_CODE.BadRequest}
+                    statusText='"Editor UI Font-Family" or "Custom CSS" cannot be empty!'
+                    font={formData?.font}
+                />
+            )
+        )
+    }
+
     if (formData?.font) {
         c.setCookie({
             name: "vscode-custom-styles-font",
@@ -45,7 +57,7 @@ app.post("/", async (c) => {
 
     const result = await updateVsCodeStyles(formData)
 
-    if (result.type === "ERROR" || result.type === "INFO") {
+    if (result.type === "ERROR") {
         c.response.statusText = result.message
     } else if (formData?.backup) {
         c.response.statusText = "Original styles restored successfully!"

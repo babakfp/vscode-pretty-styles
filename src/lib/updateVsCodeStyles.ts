@@ -9,7 +9,7 @@ type Options = {
 
 type Result =
     | {
-          type: "ERROR" | "INFO"
+          type: "ERROR"
           message: string
       }
     | {
@@ -73,13 +73,6 @@ export const updateVsCodeStyles = async (
         return {
             type: "ERROR",
             message: `Could not find "${CSS_PATH}"!`,
-        }
-    }
-
-    if (!options?.["font"] && !options?.["css"]) {
-        return {
-            type: "INFO",
-            message: "There was absolutely nothing to be done.",
         }
     }
 
