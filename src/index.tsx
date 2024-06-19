@@ -13,14 +13,10 @@ const port = Deno.args.includes("--production") ? getAvailablePort() : 3000
 const app = new Application()
 
 app.get("/", async (c) => {
+    const font = decodeURIComponent(c.cookies["vscode-custom-styles-font"])
+
     return c.html(
-        await renderToString(
-            <Index
-                font={decodeURIComponent(
-                    c.cookies["vscode-custom-styles-font"]
-                )}
-            />
-        )
+        await renderToString(<Index font={font !== "undefined" ? font : ""} />)
     )
 })
 
