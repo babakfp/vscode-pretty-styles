@@ -1,91 +1,99 @@
 import { getAvailablePort } from "@std/net"
-import { Application } from "abc"
 import { STATUS_CODE } from "@std/http/status"
+import { Hono } from "@hono/hono"
+import { getCookie, setCookie } from "@hono/hono/cookie"
+import { validator } from "@hono/hono/validator"
+import { serveStatic } from "@hono/hono/deno"
 import { open } from "open"
-import { renderToString } from "jsx"
 import { validateForm } from "./lib/FormSchema.ts"
 import { updateVsCodeStyles } from "./lib/updateVsCodeStyles.ts"
-
 import Index from "./views/pages/Index.tsx"
 
-const port = Deno.args.includes("--production") ? getAvailablePort() : 3000
+const app = new Hono()
 
-const app = new Application()
-
-app.get("/", async (c) => {
-    const font = decodeURIComponent(c.cookies["vscode-custom-styles-font"])
-
-    return c.html(
-        await renderToString(<Index font={font !== "undefined" ? font : ""} />)
+app.get("/", (c) => {
+    const font = decodeURIComponent(
+        getCookie(c, "vscode-custom-styles-font") ?? ""
     )
+
+    return c.html(<Index font={font} />)
 })
 
-app.post("/", async (c) => {
-    const body = await c.body
+app.post(
+    "/",
+    validator("form", async (value, c) => {
+        const isFormValid = validateForm(value)
 
-    const isFormValid = validateForm(body)
+        if (!isFormValid.success) {
+            return c.html(
+                <Index statusText="Invalid data submitted!" />,
+                STATUS_CODE.BadRequest
+            )
+        }
 
-    if (!isFormValid.success) {
-        c.response.status = STATUS_CODE.BadRequest
-        c.response.statusText = "Invalid data submitted!"
+        const formData = isFormValid.output
 
-        return c.html(
-            await renderToString(<Index statusText={c.response.statusText} />)
-        )
-    }
-
-    const formData = isFormValid.output
-
-    if (!formData?.backup && !formData?.font && !formData?.css) {
-        return c.html(
-            await renderToString(
+        if (!formData?.backup && !formData?.font && !formData?.css) {
+            return c.html(
                 <Index
                     statusCode={STATUS_CODE.BadRequest}
                     statusText='"Editor UI Font-Family" or "Custom CSS" cannot be empty!'
                     font={formData?.font}
                 />
             )
-        )
-    }
+        }
 
-    if (formData?.font) {
-        c.setCookie({
-            name: "vscode-custom-styles-font",
-            value: encodeURIComponent(formData.font),
-        })
-    }
+        if (formData?.font) {
+            setCookie(
+                c,
+                "vscode-custom-styles-font",
+                encodeURIComponent(formData.font)
+            )
+        }
 
-    const result = await updateVsCodeStyles(formData)
+        const result = await updateVsCodeStyles(formData)
 
-    if (result.type === "ERROR") {
-        c.response.statusText = result.message
-    } else if (formData?.backup) {
-        c.response.statusText = "Original styles restored successfully!"
-    } else {
-        c.response.statusText = "Custom styles were added successfully!"
-    }
+        let statusText: string
 
-    c.response.status =
-        result.type === "ERROR" ? STATUS_CODE.BadRequest : STATUS_CODE.OK
+        if (result.type === "ERROR") {
+            statusText = result.message
+        } else if (formData?.backup) {
+            statusText = "Original styles restored successfully!"
+        } else {
+            statusText = "Custom styles were added successfully!"
+        }
 
-    return c.html(
-        await renderToString(
+        const status =
+            result.type === "ERROR" ? STATUS_CODE.BadRequest : STATUS_CODE.OK
+
+        return c.html(
             <Index
-                statusCode={c.response.status}
-                statusText={c.response.statusText}
+                statusCode={status}
+                statusText={statusText}
                 font={formData?.font}
-            />
+            />,
+            status
         )
-    )
-})
+    })
+)
 
-app.static("/", "/public")
+app.use("*", serveStatic({ root: "/public" }))
 
-console.log("Your HTTP server is running!")
-console.log(`http://localhost:${port}`)
+const port = Deno.args.includes("--prd") ? getAvailablePort() : 3000
 
-if (Deno.args.includes("--production")) {
-    open(`http://localhost:${port}`)
-}
+Deno.serve(
+    {
+        port,
+        onListen: () => {
+            const url = `http://localhost:${port}`
 
-app.start({ port })
+            console.log("Your HTTP server is running!")
+            console.log(url)
+
+            if (Deno.args.includes("--prd")) {
+                open(url)
+            }
+        },
+    },
+    app.fetch
+)
