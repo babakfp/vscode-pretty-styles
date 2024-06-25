@@ -4,8 +4,9 @@ import { Hono } from "@hono/hono"
 import { getCookie, setCookie } from "@hono/hono/cookie"
 import { validator } from "@hono/hono/validator"
 import { serveStatic } from "@hono/hono/deno"
+import * as v from "@valibot/valibot"
 import { open } from "open"
-import { validateForm } from "./utils/FormSchema.ts"
+import { FormSchema } from "./utils/FormSchema.ts"
 import { updateVsCodeStyles } from "./utils/updateVsCodeStyles.ts"
 import Index from "./views/pages/Index.tsx"
 
@@ -22,7 +23,7 @@ app.get("/", (c) => {
 app.post(
     "/",
     validator("form", async (value, c) => {
-        const isFormValid = validateForm(value)
+        const isFormValid = v.safeParse(FormSchema, value)
 
         if (!isFormValid.success) {
             return c.html(
