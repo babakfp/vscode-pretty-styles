@@ -51,7 +51,10 @@ app.post(
             )
         }
 
-        const result = await updateVsCodeStyles(formData)
+        const result = await updateVsCodeStyles({
+            ...formData,
+            css: await formData.css,
+        })
 
         let statusText: string
 

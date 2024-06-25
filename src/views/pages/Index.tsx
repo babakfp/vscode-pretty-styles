@@ -24,10 +24,13 @@ export default (props?: {
                         </label>
                     </fieldset>
 
-                    <button type="submit" name="submit">
-                        Submit
-                    </button>
-                    <button type="submit" name="backup" class="secondary">
+                    <button type="submit">Submit</button>
+                    <button
+                        type="submit"
+                        name="backup"
+                        value="true"
+                        class="secondary"
+                    >
                         Revert Changes
                     </button>
 

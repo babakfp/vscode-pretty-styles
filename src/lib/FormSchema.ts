@@ -1,5 +1,4 @@
 import * as v from "@valibot/valibot"
-import { FormFile, isFormFile } from "multipart"
 
 export const validateForm = (value: unknown) => v.safeParse(FormSchema, value)
 
@@ -9,15 +8,24 @@ const FormSchema = v.optional(
         css: v.optional(
             v.union([
                 v.string(),
-                v.transform(
-                    v.special<FormFile>((input) => {
-                        if (!isFormFile(input)) return false
-                        return input.type === "text/css"
-                    }),
-                    (input) => new TextDecoder().decode(input.content)
+                v.pipe(
+                    v.custom<File>(
+                        (input) => input instanceof File,
+                        "Expected a file!"
+                    ),
+                    v.check(
+                        (input) => input.type === "text/css",
+                        "Expected a CSS file!"
+                    ),
+                    v.transform((input) => input.text())
                 ),
             ])
         ),
-        backup: v.coerce(v.boolean(), (input) => input === ""),
+        backup: v.optional(
+            v.pipe(
+                v.literal("true"),
+                v.transform(() => true)
+            )
+        ),
     })
 )
