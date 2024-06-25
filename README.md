@@ -6,7 +6,7 @@ A **Windows** application that allows you to Customize vsCode Editor UI Font-Fam
 
 ## How it works
 
-This application modifies vsCode installation files. It doesn't make any breaking or unexpected changes. You can easily revert the changes. Feel free to check out the source [code](/src/lib/updateVsCodeStyles.ts).
+This application modifies vsCode installation files. It doesn't make any breaking or unexpected changes. You can easily revert the changes. Feel free to check out the source [code](/src/utils/updateVsCodeStyles.ts).
 
 ## Guide
 

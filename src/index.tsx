@@ -5,8 +5,8 @@ import { getCookie, setCookie } from "@hono/hono/cookie"
 import { validator } from "@hono/hono/validator"
 import { serveStatic } from "@hono/hono/deno"
 import { open } from "open"
-import { validateForm } from "./lib/FormSchema.ts"
-import { updateVsCodeStyles } from "./lib/updateVsCodeStyles.ts"
+import { validateForm } from "./utils/FormSchema.ts"
+import { updateVsCodeStyles } from "./utils/updateVsCodeStyles.ts"
 import Index from "./views/pages/Index.tsx"
 
 const app = new Hono()
