@@ -14,8 +14,7 @@ export const FormSchema = v.optional(
                     v.check(
                         (input) => input.type === "text/css",
                         "Expected a CSS file!"
-                    ),
-                    v.transform((input) => input.text())
+                    )
                 ),
             ])
         ),
