@@ -48,6 +48,11 @@ form {
     height: auto !important;
 }
 
+/* Fix PicoCSS label styles */
+label {
+    display: inline-block;
+}
+
 /* Change PicoCSS styles */
 
 .container {
