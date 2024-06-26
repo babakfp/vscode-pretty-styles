@@ -1,9 +1,16 @@
-@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
+/* Font */
+
+@font-face {
+    font-family: "Geist";
+    font-weight: 100 900;
+    src: url("/fonts/GeistVF.woff2") format("woff2-variations");
+    font-display: block;
+}
 
 /* Change PicoCSS variables */
 
 :root {
-    --pico-font-family: "Titillium Web";
+    --pico-font-family: "Geist";
 
     --pico-border-width: 0.125rem;
     --pico-border-radius: 0.5rem;

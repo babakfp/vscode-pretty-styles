@@ -17,7 +17,7 @@ app.get("/", (c) => {
         getCookie(c, "vscode-custom-styles-font") ?? ""
     )
 
-    return c.html(<Index font={font} />)
+    return c.html("<!DOCTYPE html>" + <Index font={font} />)
 })
 
 app.post(
@@ -27,6 +27,7 @@ app.post(
 
         if (!isFormValid.success) {
             return c.html(
+                "<!DOCTYPE html>" +
                 <Index statusText="Invalid data submitted!" />,
                 STATUS_CODE.BadRequest
             )
@@ -36,11 +37,14 @@ app.post(
 
         if (!formData?.backup && !formData?.font && !formData?.css) {
             return c.html(
-                <Index
-                    statusCode={STATUS_CODE.BadRequest}
-                    statusText='"Editor UI Font-Family" or "Custom CSS" cannot be empty!'
-                    font={formData?.font}
-                />
+                "<!DOCTYPE html>" +
+                (
+                    <Index
+                        statusCode={STATUS_CODE.BadRequest}
+                        statusText='"Editor UI Font-Family" or "Custom CSS" cannot be empty!'
+                        font={formData?.font}
+                    />
+                )
             )
         }
 
@@ -74,11 +78,14 @@ app.post(
             result.type === "ERROR" ? STATUS_CODE.BadRequest : STATUS_CODE.OK
 
         return c.html(
-            <Index
-                statusCode={status}
-                statusText={statusText}
-                font={formData?.font}
-            />,
+            "<!DOCTYPE html>" +
+            (
+                <Index
+                    statusCode={status}
+                    statusText={statusText}
+                    font={formData?.font}
+                />
+            ),
             status
         )
     })

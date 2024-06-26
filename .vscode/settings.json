@@ -1,9 +1,9 @@
 {
     "deno.enable": true,
     "files.readonlyInclude": {
-        "public/npm/**": true
+        "public/css/pico@*": true
     },
     "search.exclude": {
-        "public/npm/**": true
+        "public/css/pico@*": true
     }
 }

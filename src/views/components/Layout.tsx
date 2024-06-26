@@ -7,12 +7,18 @@ export const Layout = (props: PropsWithChildren<{ title: string }>) => (
             <meta name="viewport" content="width=device-width" />
             <meta name="color-scheme" content="light dark" />
             <link rel="icon" href="/favicon.svg" />
-            <link rel="stylesheet" href="/npm/@picocss/pico@2.0.6.css" />
+
             <link
-                rel="stylesheet"
-                href="/npm/@picocss/pico@2.0.6/css/pico.colors.min.css"
+                rel="preload"
+                href="/fonts/GeistVF.woff2"
+                as="font"
+                type="font/woff2"
+                crossorigin="anonymous"
             />
-            <link rel="stylesheet" href="/index.css" />
+
+            <link rel="stylesheet" href="/css/pico@2.0.6.css" />
+            <link rel="stylesheet" href="/css/pico@2.0.6.colors.min.css" />
+            <link rel="stylesheet" href="/css/index.css" />
             <title>{props.title}</title>
         </head>
         <body>{props.children}</body>
