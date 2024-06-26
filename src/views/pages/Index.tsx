@@ -14,14 +14,16 @@ export default (props?: {
 
                 <form method="post" enctype="multipart/form-data">
                     <fieldset>
-                        <label>
-                            Editor UI Font-Family
-                            <input name="font" value={props?.font} />
-                        </label>
-                        <label>
-                            Custom CSS
-                            <input name="css" type="file" accept="text/css" />
-                        </label>
+                        <label for="font">Editor UI Font-Family</label>
+                        <input id="font" name="font" value={props?.font} />
+
+                        <label for="css">Custom CSS</label>
+                        <input
+                            id="css"
+                            name="css"
+                            type="file"
+                            accept="text/css"
+                        />
                     </fieldset>
 
                     <button type="submit">Submit</button>
