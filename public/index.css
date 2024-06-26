@@ -40,6 +40,14 @@ form {
     margin-bottom: var(--pico-spacing) !important;
 }
 
+/* Fix PicoCSS styles */
+
+[type="file"] {
+    padding: 0;
+    margin-left: 0;
+    height: auto !important;
+}
+
 /* Change PicoCSS styles */
 
 .container {
