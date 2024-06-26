@@ -5,7 +5,6 @@ import { getCookie, setCookie } from "@hono/hono/cookie"
 import { validator } from "@hono/hono/validator"
 import { serveStatic } from "@hono/hono/deno"
 import * as v from "@valibot/valibot"
-import { open } from "open"
 import { FormSchema } from "./utils/FormSchema.ts"
 import { updateVsCodeStyles } from "./utils/updateVsCodeStyles.ts"
 import Index from "./views/pages/Index.tsx"
@@ -105,7 +104,9 @@ Deno.serve(
             console.log(url)
 
             if (Deno.args.includes("--prd")) {
-                open(url)
+                new Deno.Command("powershell", {
+                    args: ["Start-Process", url],
+                }).spawn()
             }
         },
     },
