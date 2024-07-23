@@ -1,5 +1,4 @@
 {
-    "version": "0.0.7",
     "tasks": {
         "dev": "deno run -A --unstable-hmr src/index.tsx --import-map",
         "compile": "deno compile -A --output vscode-pretty-styles src/index.tsx --import-map --prd"
