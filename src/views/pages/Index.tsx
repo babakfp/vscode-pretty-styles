@@ -10,8 +10,6 @@ export default (props?: {
     return (
         <Layout title={title}>
             <main class="container">
-                <h1>{title}</h1>
-
                 <form method="post" enctype="multipart/form-data">
                     <fieldset>
                         <label for="font">Editor UI Font-Family</label>
