@@ -55,6 +55,10 @@ form {
     height: auto !important;
 }
 
+[type="file"]::file-selector-button {
+    margin-right: var(--pico-spacing);
+}
+
 /* Fix PicoCSS label styles */
 label {
     display: inline-block;
