@@ -48,15 +48,6 @@ export default (props?: {
                         ""
                     )}
                 </form>
-
-                <footer>
-                    <p>
-                        Made by {""}
-                        <a href="https://github.com/babakfp" target="_blank">
-                            Babak
-                        </a>
-                    </p>
-                </footer>
             </main>
         </Layout>
     )
