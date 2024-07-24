@@ -3,7 +3,7 @@
 @font-face {
     font-family: "Geist";
     font-weight: 100 900;
-    src: url("/fonts/GeistVF.woff2") format("woff2-variations");
+    src: url("/fonts/GeistMonoVF.woff2") format("woff2-variations");
     font-display: block;
 }
 

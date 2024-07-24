@@ -12,7 +12,7 @@ export const Layout = (props: PropsWithChildren<{ title: string }>) => (
 
             <link
                 rel="preload"
-                href="/fonts/GeistVF.woff2"
+                href="/fonts/GeistMonoVF.woff2"
                 as="font"
                 type="font/woff2"
                 crossorigin="anonymous"
