@@ -89,19 +89,26 @@ export const updateVsCodeStyles = async (
     let newCssContent = CSS_CONTENT
 
     if (options?.["font"]) {
+        const customCssVariables = `
+            :root {
+                --vscode-pretty-styles-font-family: ${options["font"]};
+            }
+        `
+
+        newCssContent = customCssVariables + newCssContent
+
         newCssContent = newCssContent.replace(
             "Segoe WPC,Segoe UI,sans-serif",
-            options["font"]
+            `var(--vscode-pretty-styles-font-family)`
         )
 
-        newCssContent +=
-            "\n" +
-            `
-                .composite.viewlet .scm-editor-placeholder,
-                .composite.viewlet .view-lines.monaco-mouse-cursor-text {
-                    font-family: ${options["font"]} !important;
-                }
-            `
+        newCssContent += `
+            .composite.viewlet .scm-editor-placeholder,
+            .composite.viewlet .view-lines.monaco-mouse-cursor-text,
+            .editorPlaceholder {
+                font-family: var(--vscode-pretty-styles-font-family) !important;
+            }
+        `
     }
 
     if (options?.["css"]) {
