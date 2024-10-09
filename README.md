@@ -14,6 +14,10 @@ This application modifies vsCode installation files. It doesn't make any breakin
 2. Extract the downloaded file.
 3. Run the executable `vscode-pretty-styles.exe`.
 
+## CSS variables
+
+-   `--vscode-pretty-styles-font-family`.
+
 ## Limitations
 
 -   It only works on Windows OS.
