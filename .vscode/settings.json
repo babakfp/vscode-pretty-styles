@@ -1,5 +1,6 @@
 {
     "deno.enable": true,
+    "editor.defaultFormatter": "denoland.vscode-deno",
     "files.readonlyInclude": {
         "public/css/pico@*": true
     },
