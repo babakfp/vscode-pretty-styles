@@ -8,7 +8,7 @@ export const Layout = (props: PropsWithChildren<{ title: string }>) => (
             <meta name="color-scheme" content="light dark" />
 
             <title>{props.title}</title>
-            <link rel="icon" href="/favicon.svg" />
+            <link rel="icon" href="/icon.ico" />
 
             <link
                 rel="preload"
