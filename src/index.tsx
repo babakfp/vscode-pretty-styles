@@ -9,6 +9,8 @@ import { FormSchema } from "./utils/FormSchema.ts"
 import { updateVsCodeStyles } from "./utils/updateVsCodeStyles.ts"
 import Index from "./views/pages/Index.tsx"
 
+const PRODUCTION_FLAG = '-p'
+
 const app = new Hono()
 
 app.get("/", (c) => {
@@ -92,7 +94,7 @@ app.post(
 
 app.use("*", serveStatic({ root: "/public" }))
 
-const port = Deno.args.includes("--prd") ? getAvailablePort() : 3000
+const port = Deno.args.includes(PRODUCTION_FLAG) ? getAvailablePort() : 3000
 
 Deno.serve(
     {
@@ -103,7 +105,7 @@ Deno.serve(
             console.log("Your HTTP server is running!")
             console.log(url)
 
-            if (Deno.args.includes("--prd")) {
+            if (Deno.args.includes(PRODUCTION_FLAG)) {
                 new Deno.Command("powershell", {
                     args: ["Start-Process", url],
                 }).spawn()
