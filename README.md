@@ -53,3 +53,7 @@ C:\Users\Babak\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\wor
 
 1. Press `ctrl` + `shift` + `p`.
 2. Select "Toggle Developer Tools".
+
+## License
+
+Icon by [Icon8](https://icons8.com).
