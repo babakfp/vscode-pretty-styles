@@ -10,8 +10,6 @@ import { updateVsCodeStyles } from "./utils/updateVsCodeStyles.ts"
 import Index from "./views/pages/Index.tsx"
 import embed from "../embed/public/dir.ts"
 
-const PRODUCTION_FLAG = "-p"
-
 const app = new Hono()
 
 app.get("/", (c) => {
@@ -93,7 +91,7 @@ app.post(
     }),
 )
 
-if (Deno.args.includes(PRODUCTION_FLAG)) {
+if (Deno.args.includes("--compile")) {
     app.get("**", async (c) => {
         const url = new URL(c.req.url)
         for (const path of embed.list()) {
@@ -109,7 +107,7 @@ if (Deno.args.includes(PRODUCTION_FLAG)) {
     app.use("*", serveStatic({ root: "public" }))
 }
 
-const port = Deno.args.includes(PRODUCTION_FLAG) ? getAvailablePort() : 3000
+const port = Deno.args.includes("--compile") ? getAvailablePort() : 3000
 
 Deno.serve(
     {
@@ -120,7 +118,7 @@ Deno.serve(
             console.log("Your HTTP server is running!")
             console.log(url)
 
-            if (Deno.args.includes(PRODUCTION_FLAG)) {
+            if (Deno.args.includes("--compile")) {
                 new Deno.Command("powershell", {
                     args: ["Start-Process", url],
                 }).spawn()

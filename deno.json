@@ -1,7 +1,7 @@
 {
     "tasks": {
         "dev": "deno run -A --watch src/index.tsx",
-        "compile": "deno task embed && deno compile -A --icon public/icon.ico -o vscode-pretty-styles src/index.tsx -p",
+        "compile": "deno task embed && deno compile -A --icon public/icon.ico -o vscode-pretty-styles src/index.tsx --compile",
         "embed": "deno run -A embed.ts build"
     },
     "imports": {
