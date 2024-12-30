@@ -92,7 +92,7 @@ app.post(
     }),
 )
 
-app.use("*", serveStatic({ root: "/public" }))
+app.use("*", serveStatic({ root: "public" }))
 
 const port = Deno.args.includes(PRODUCTION_FLAG) ? getAvailablePort() : 3000
 
