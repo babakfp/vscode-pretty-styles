@@ -8,6 +8,7 @@ import * as v from "@valibot/valibot"
 import { FormSchema } from "./utils/FormSchema.ts"
 import { updateVsCodeStyles } from "./utils/updateVsCodeStyles.ts"
 import Index from "./views/pages/Index.tsx"
+import embed from "../embed/public/dir.ts"
 
 const PRODUCTION_FLAG = "-p"
 
@@ -92,7 +93,21 @@ app.post(
     }),
 )
 
-app.use("*", serveStatic({ root: "public" }))
+if (Deno.args.includes(PRODUCTION_FLAG)) {
+    app.get("**", async (c) => {
+        const url = new URL(c.req.url)
+        for (const path of embed.list()) {
+            if (url.pathname === `/${path}`) {
+                const file = await embed.get(path)
+                const bytes = await file!.bytes()
+                return c.newResponse(bytes)
+            }
+        }
+        return c.notFound()
+    })
+} else {
+    app.use("*", serveStatic({ root: "public" }))
+}
 
 const port = Deno.args.includes(PRODUCTION_FLAG) ? getAvailablePort() : 3000
 

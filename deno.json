@@ -1,10 +1,12 @@
 {
     "tasks": {
         "dev": "deno run -A --watch src/index.tsx",
-        "compile": "deno compile -A --icon public/icon.ico -o vscode-pretty-styles src/index.tsx -p"
+        "compile": "deno task embed && deno compile -A --icon public/icon.ico -o vscode-pretty-styles src/index.tsx -p",
+        "embed": "deno run -A embed.ts build"
     },
     "imports": {
         "@hono/hono": "jsr:@hono/hono@4.6.3",
+        "@nfnitloop/deno-embedder": "jsr:@nfnitloop/deno-embedder@^1.6.0",
         "@std/fs": "jsr:@std/fs@1.0.4",
         "@std/http": "jsr:@std/http@1.0.7",
         "@std/net": "jsr:@std/net@1.0.4",
