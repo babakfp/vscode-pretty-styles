@@ -9,20 +9,20 @@ export const FormSchema = v.optional(
                 v.pipe(
                     v.custom<File>(
                         (input) => input instanceof File,
-                        "Expected a file!"
+                        "Expected a file!",
                     ),
                     v.check(
                         (input) => input.type === "text/css",
-                        "Expected a CSS file!"
-                    )
+                        "Expected a CSS file!",
+                    ),
                 ),
-            ])
+            ]),
         ),
         backup: v.optional(
             v.pipe(
                 v.literal("true"),
-                v.transform(() => true)
-            )
+                v.transform(() => true),
+            ),
         ),
-    })
+    }),
 )

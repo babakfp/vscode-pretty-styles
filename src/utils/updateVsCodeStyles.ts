@@ -9,16 +9,16 @@ type Options = {
 
 type Result =
     | {
-          type: "ERROR"
-          message: string
-      }
+        type: "ERROR"
+        message: string
+    }
     | {
-          type: "SUCCESSFUL"
-          tasks: string[]
-      }
+        type: "SUCCESSFUL"
+        tasks: string[]
+    }
 
 export const updateVsCodeStyles = async (
-    options?: Options
+    options?: Options,
 ): Promise<Result> => {
     const tasks: string[] = []
 
@@ -38,10 +38,12 @@ export const updateVsCodeStyles = async (
         }
     }
 
-    const WORKBENCH_DIR = `${HOME_DIR}\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench`
+    const WORKBENCH_DIR =
+        `${HOME_DIR}\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench`
 
     const CSS_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.css`
-    const CSS_BACKUP_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.backup.css`
+    const CSS_BACKUP_PATH =
+        `${WORKBENCH_DIR}\\workbench.desktop.main.backup.css`
 
     if (options?.["backup"]) {
         if (!(await exists(CSS_BACKUP_PATH))) {
@@ -99,7 +101,7 @@ export const updateVsCodeStyles = async (
 
         newCssContent = newCssContent.replace(
             "Segoe WPC,Segoe UI,sans-serif",
-            `var(--vscode-pretty-styles-font-family)`
+            `var(--vscode-pretty-styles-font-family)`,
         )
 
         newCssContent += `

@@ -34,19 +34,17 @@ export default (props?: {
                         Revert Changes
                     </button>
 
-                    {props?.statusText ? (
-                        <p
-                            class={
-                                props?.statusCode === 200
+                    {props?.statusText
+                        ? (
+                            <p
+                                class={props?.statusCode === 200
                                     ? "pico-color-green-300"
-                                    : "pico-color-pink-300"
-                            }
-                        >
-                            {props?.statusText}
-                        </p>
-                    ) : (
-                        ""
-                    )}
+                                    : "pico-color-pink-300"}
+                            >
+                                {props?.statusText}
+                            </p>
+                        )
+                        : ""}
                 </form>
             </main>
         </Layout>
