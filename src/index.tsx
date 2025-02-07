@@ -154,12 +154,8 @@ if (Deno.args.includes("--compile")) {
     })
 } else {
     routes.push({
-        // Prefix it with puglic
-        pattern: new URLPattern({ pathname: "*" }),
-        handler: (req: Request) =>
-            serveDir(req, {
-                fsRoot: "/public",
-            }),
+        pattern: new URLPattern({ pathname: "/public/*" }),
+        handler: (req: Request) => serveDir(req),
     })
 }
 

@@ -10,19 +10,22 @@ export const Layout = (
                 <meta name="color-scheme" content="light dark" />
 
                 <title>{props.title}</title>
-                <link rel="icon" href="/icon.ico" />
+                <link rel="icon" href="/public/icon.ico" />
 
                 <link
                     rel="preload"
-                    href="/fonts/GeistMonoVF.woff2"
+                    href="/public/fonts/GeistMonoVF.woff2"
                     as="font"
                     type="font/woff2"
                     crossorigin="anonymous"
                 />
 
-                <link rel="stylesheet" href="/css/pico@2.0.6.css" />
-                <link rel="stylesheet" href="/css/pico@2.0.6.colors.min.css" />
-                <link rel="stylesheet" href="/css/index.css" />
+                <link rel="stylesheet" href="/public/css/pico@2.0.6.css" />
+                <link
+                    rel="stylesheet"
+                    href="/public/css/pico@2.0.6.colors.min.css"
+                />
+                <link rel="stylesheet" href="/public/css/index.css" />
             </head>
             <body>{props.children}</body>
         </html>
