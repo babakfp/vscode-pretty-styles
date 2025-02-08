@@ -5,10 +5,8 @@ export default (props?: {
     statusText?: string
     font?: string
 }) => {
-    const title = "vsCode Pretty Styles"
-
     return (
-        <Layout title={title}>
+        <Layout>
             <main class="container">
                 <form method="post" enctype="multipart/form-data">
                     <fieldset>

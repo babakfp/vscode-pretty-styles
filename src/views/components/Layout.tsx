@@ -1,5 +1,5 @@
 export const Layout = (
-    props: { title: string; children: preact.VNode },
+    props: { children: preact.VNode },
 ) => (
     <>
         {"<!DOCTYPE html>"}
@@ -9,7 +9,7 @@ export const Layout = (
                 <meta name="viewport" content="width=device-width" />
                 <meta name="color-scheme" content="light dark" />
 
-                <title>{props.title}</title>
+                <title>vsCode Pretty Styles</title>
                 <link rel="icon" href="/public/icon.ico" />
 
                 <link
