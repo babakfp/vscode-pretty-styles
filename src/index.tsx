@@ -136,14 +136,13 @@ if (Deno.args.includes("--compile")) {
         pattern: new URLPattern({ pathname: "/public/*" }),
         handler: async (request) => {
             const url = new URL(request.url)
-            for (const path of embed.list()) {
-                if (url.pathname === `/public/${path}`) {
-                    const file = await embed.get(path)
-                    const bytes = await file!.bytes()
-                    return new Response(bytes)
-                }
-            }
-            return defaultHandler(request)
+            const path = embed.list().find((e) =>
+                url.pathname === `/public/${e}`
+            )
+            if (!path) return defaultHandler(request)
+            const file = await embed.get(path)
+            const bytes = await file!.bytes()
+            return new Response(bytes)
         },
     })
 } else {
