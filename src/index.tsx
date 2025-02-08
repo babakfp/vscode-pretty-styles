@@ -49,14 +49,12 @@ const routes: Route[] = [
         method: ["POST"],
         pattern: new URLPattern({ pathname: "/" }),
         handler: async (request) => {
-            const formData = await request.formData()
-
-            const isFormValid = v.safeParse(
+            const formData = v.safeParse(
                 FormSchema,
-                Object.fromEntries(formData),
+                Object.fromEntries(await request.formData()),
             )
 
-            if (!isFormValid.success) {
+            if (!formData.success) {
                 const font = decodeURIComponent(getCookie(
                     request.headers,
                     "vscode-custom-styles-font",
@@ -73,26 +71,25 @@ const routes: Route[] = [
                 )
             }
 
-            const validatedFormData = isFormValid.output
-
             const headers = new Headers()
-            if (validatedFormData?.font) {
+            if (formData.output?.font) {
                 setCookie(headers, {
                     name: "vscode-custom-styles-font",
-                    value: encodeURIComponent(validatedFormData.font),
+                    value: encodeURIComponent(formData.output.font),
                 })
             }
 
             if (
-                !validatedFormData?.backup && !validatedFormData?.font &&
-                !validatedFormData?.css
+                !formData.output?.backup &&
+                !formData.output?.font &&
+                !formData.output?.css
             ) {
                 return createHTMLResponse(
                     render(
                         <Index
                             statusCode={STATUS_CODE.BadRequest}
                             statusText='"Editor UI Font-Family" or "Custom CSS" cannot be empty!'
-                            font={validatedFormData?.font}
+                            font={formData.output?.font}
                         />,
                         { status: STATUS_CODE.BadRequest, headers },
                     ),
@@ -100,17 +97,17 @@ const routes: Route[] = [
             }
 
             const result = await updateVsCodeStyles({
-                ...validatedFormData,
-                css: validatedFormData.css instanceof File
-                    ? await validatedFormData.css.text()
-                    : validatedFormData.css,
+                ...formData.output,
+                css: formData.output.css instanceof File
+                    ? await formData.output.css.text()
+                    : formData.output.css,
             })
 
             let statusText: string
 
             if (result.type === "ERROR") {
                 statusText = result.message
-            } else if (validatedFormData?.backup) {
+            } else if (formData.output?.backup) {
                 statusText = "Original styles restored successfully!"
             } else {
                 statusText = "Custom styles were added successfully!"
@@ -125,7 +122,7 @@ const routes: Route[] = [
                     <Index
                         statusCode={status}
                         statusText={statusText}
-                        font={validatedFormData?.font}
+                        font={formData.output?.font}
                     />,
                     { status, headers },
                 ),
