@@ -137,7 +137,7 @@ if (Deno.args.includes("--compile")) {
         handler: async (request) => {
             const url = new URL(request.url)
             for (const path of embed.list()) {
-                if (url.pathname === `/${path}`) {
+                if (url.pathname === `/public/${path}`) {
                     const file = await embed.get(path)
                     const bytes = await file!.bytes()
                     return new Response(bytes)
