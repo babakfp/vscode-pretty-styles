@@ -133,7 +133,7 @@ const routes: Route[] = [
 
 if (Deno.args.includes("--compile")) {
     routes.push({
-        pattern: new URLPattern({ pathname: "*" }),
+        pattern: new URLPattern({ pathname: "/public/*" }),
         handler: async (request) => {
             const url = new URL(request.url)
             for (const path of embed.list()) {
@@ -143,10 +143,7 @@ if (Deno.args.includes("--compile")) {
                     return new Response(bytes)
                 }
             }
-
-            return new Response(undefined, {
-                status: STATUS_CODE.NotFound,
-            })
+            return defaultHandler(request)
         },
     })
 } else {
