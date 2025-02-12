@@ -9,7 +9,7 @@ Font-Family and add your own Custom CSS styles.
 
 This application modifies vsCode installation files. It doesn't make any
 breaking or unexpected changes. You can easily revert the changes. Feel free to
-check out the source [code](/src/utils/updateVsCodeStyles.ts).
+check out the source [code](/src/utilities/updateVsCodeStyles.ts).
 
 ## Guide
 
