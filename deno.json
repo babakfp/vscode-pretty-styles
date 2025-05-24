@@ -1,17 +1,17 @@
 {
     "tasks": {
         "dev": "deno run -A --watch src/main.tsx",
-        "compile": "deno task embed && deno compile -A --icon public/icon.ico -o vscode-pretty-styles src/main.tsx --compile",
+        "compile": "deno task embed && deno compile -A --icon public/icon.ico -o vscode-pretty-styles src/main.tsx",
         "embed": "deno run -A embed.ts build"
     },
     "imports": {
-        "@nfnitloop/deno-embedder": "jsr:@nfnitloop/deno-embedder@^1.6.0",
-        "@std/fs": "jsr:@std/fs@1.0.4",
-        "@std/http": "jsr:@std/http@1.0.7",
+        "@nfnitloop/deno-embedder": "jsr:@nfnitloop/deno-embedder@^1.6.1",
+        "@std/fs": "jsr:@std/fs@1.0.17",
+        "@std/http": "jsr:@std/http@1.0.16",
         "@std/media-types": "jsr:@std/media-types@^1.1.0",
         "@std/net": "jsr:@std/net@1.0.4",
-        "@valibot/valibot": "jsr:@valibot/valibot@0.42.1",
-        "preact": "npm:preact@^10.25.4",
+        "@valibot/valibot": "jsr:@valibot/valibot@1.1.0",
+        "preact": "npm:preact@^10.26.6",
         "preact-render-to-string": "npm:preact-render-to-string@^6.5.13"
     },
     "compilerOptions": {

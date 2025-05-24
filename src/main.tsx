@@ -20,7 +20,7 @@ const getCookie = (
 
 const createHTMLResponse = (body?: BodyInit | null, init?: ResponseInit) => {
     return new Response(
-        body,
+        "<!DOCTYPE html>" + body,
         {
             ...init,
             headers: {
@@ -131,7 +131,7 @@ const routes: Route[] = [
     },
 ]
 
-if (Deno.args.includes("--compile")) {
+if (Deno.build.standalone) {
     routes.push({
         pattern: new URLPattern({ pathname: "/public/*" }),
         handler: async (request) => {
@@ -152,7 +152,7 @@ if (Deno.args.includes("--compile")) {
     })
 }
 
-const port = Deno.args.includes("--compile") ? getAvailablePort() : 3000
+const port = Deno.build.standalone ? getAvailablePort() : 3000
 
 const defaultHandler = (_req: Request) => {
     return new Response(STATUS_TEXT[STATUS_CODE.NotFound], {
@@ -169,7 +169,7 @@ Deno.serve(
             console.log("Your HTTP server is running!")
             console.log(url)
 
-            if (Deno.args.includes("--compile")) {
+            if (Deno.build.standalone) {
                 new Deno.Command("powershell", {
                     args: ["Start-Process", url],
                 }).spawn()
