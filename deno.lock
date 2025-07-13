@@ -6,6 +6,7 @@
     "jsr:@cliffy/table@1.0.0-rc.4": "1.0.0-rc.4",
     "jsr:@hono/hono@4": "4.7.10",
     "jsr:@luca/esbuild-deno-loader@0.11": "0.11.1",
+    "jsr:@nfnitloop/deno-embedder@*": "1.6.1",
     "jsr:@nfnitloop/deno-embedder@1.6.1": "1.6.1",
     "jsr:@nfnitloop/deno-embedder@^1.6.1": "1.6.1",
     "jsr:@oak/commons@0.10": "0.10.2",
@@ -60,9 +61,8 @@
     "npm:@types/node@*": "22.15.15",
     "npm:esbuild@0.22.0": "0.22.0",
     "npm:path-to-regexp@6.2.1": "6.2.1",
-    "npm:preact-render-to-string@^6.5.13": "6.5.13_preact@10.26.6",
-    "npm:preact@^10.25.4": "10.26.6",
-    "npm:preact@^10.26.6": "10.26.6",
+    "npm:preact-render-to-string@^6.5.13": "6.5.13_preact@10.26.9",
+    "npm:preact@^10.26.9": "10.26.9",
     "npm:zod@3.23.4": "3.23.4"
   },
   "jsr": {
@@ -488,14 +488,14 @@
     "path-to-regexp@6.2.1": {
       "integrity": "sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw=="
     },
-    "preact-render-to-string@6.5.13_preact@10.26.6": {
+    "preact-render-to-string@6.5.13_preact@10.26.9": {
       "integrity": "sha512-iGPd+hKPMFKsfpR2vL4kJ6ZPcFIoWZEcBf0Dpm3zOpdVvj77aY8RlLiQji5OMrngEyaxGogeakTb54uS2FvA6w==",
       "dependencies": [
         "preact"
       ]
     },
-    "preact@10.26.6": {
-      "integrity": "sha512-5SRRBinwpwkaD+OqlBDeITlRgvd8I8QlxHJw9AxSdMNV6O+LodN9nUyYGpSF7sadHjs6RzeFShMexC6DbtWr9g=="
+    "preact@10.26.9": {
+      "integrity": "sha512-SSjF9vcnF27mJK1XyFMNJzFd5u3pQiATFqoaDy03XuN00u4ziveVVEGt5RKJrDR8MHE/wJo9Nnad56RLzS2RMA=="
     },
     "undici-types@6.21.0": {
       "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="
@@ -541,7 +541,7 @@
       "jsr:@std/net@1.0.4",
       "jsr:@valibot/valibot@1.1.0",
       "npm:preact-render-to-string@^6.5.13",
-      "npm:preact@^10.26.6"
+      "npm:preact@^10.26.9"
     ]
   }
 }
