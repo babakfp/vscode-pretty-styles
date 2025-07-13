@@ -79,3 +79,9 @@ h1 {
 footer {
     margin-top: var(--pico-spacing);
 }
+
+/* --- */
+
+::-webkit-scrollbar {
+    display: none;
+}

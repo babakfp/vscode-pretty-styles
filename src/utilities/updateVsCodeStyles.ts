@@ -18,28 +18,13 @@ type Result =
     }
 
 export const updateVsCodeStyles = async (
+    homeDir: string,
     options?: Options,
 ): Promise<Result> => {
     const tasks: string[] = []
 
-    if (Deno.build.os !== "windows") {
-        return {
-            type: "ERROR",
-            message: "This script only works on Windows!",
-        }
-    }
-
-    const HOME_DIR = Deno.env.get("USERPROFILE")
-
-    if (!HOME_DIR) {
-        return {
-            type: "ERROR",
-            message: 'Could not find "USERPROFILE"!',
-        }
-    }
-
     const WORKBENCH_DIR =
-        `${HOME_DIR}\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench`
+        `${homeDir}\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench`
 
     const CSS_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.css`
     const CSS_BACKUP_PATH =

@@ -4,6 +4,8 @@ export default (props?: {
     statusCode?: number
     statusText?: string
     font?: string
+    cssStorage: string
+    cssStoragePath: string
 }) => {
     return (
         <Layout>
@@ -41,6 +43,19 @@ export default (props?: {
                             >
                                 {props?.statusText}
                             </p>
+                        )
+                        : ""}
+
+                    {props?.cssStorage
+                        ? (
+                            <>
+                                <hr />
+                                <h2>CSS file</h2>
+                                <p>
+                                    <code>{props?.cssStoragePath}</code>:
+                                </p>
+                                <pre><code>{props.cssStorage}</code></pre>
+                            </>
                         )
                         : ""}
                 </form>
