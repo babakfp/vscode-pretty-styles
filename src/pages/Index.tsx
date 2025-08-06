@@ -66,9 +66,12 @@ export default (props: {
 
                     <br />
                     <br />
+                    <hr />
 
                     <details name="css">
-                        <summary>Workbench CSS</summary>
+                        <summary role="button" class="outline secondary">
+                            Workbench CSS
+                        </summary>
                         <p>
                             <code>{props.workbenchCSSStoragePath}</code>
                         </p>
@@ -76,10 +79,10 @@ export default (props: {
                             <pre><code>{props.workbenchCSSStorage}</code></pre>}
                     </details>
 
-                    <hr />
-
                     <details name="css">
-                        <summary>Iframe Markdown CSS</summary>
+                        <summary role="button" class="outline secondary">
+                            Iframe Markdown CSS
+                        </summary>
                         <p>
                             <code>{props.iframeMarkdownCSSStoragePath}</code>
                         </p>
