@@ -23,13 +23,18 @@ export const updateVsCodeStyles = async (
 ): Promise<Result> => {
     const tasks: string[] = []
 
-    const workbenchDir =
-        `${homeDir}\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench`
+    const vscodeDir = `${homeDir}\\AppData\\Local\\Programs\\Microsoft VS Code`
+    const workbenchDir = `${vscodeDir}\\resources\\app\\out\\vs\\workbench`
 
     const cssPath = `${workbenchDir}\\workbench.desktop.main.css`
     const cssBackupPath = `${workbenchDir}\\workbench.desktop.main.backup.css`
 
+    const jsPath = `${workbenchDir}\\workbench.desktop.main.js`
+    const jsBackupPath = `${workbenchDir}\\workbench.desktop.main.backup.js`
+
     if (options?.["backup"]) {
+        // CSS
+
         if (!(await exists(cssBackupPath))) {
             return {
                 type: "ERROR",
@@ -49,11 +54,34 @@ export const updateVsCodeStyles = async (
 
         tasks.push(`✅ Deleted backup: "${cssBackupPath}".`)
 
+        // JS
+
+        if (!(await exists(jsBackupPath))) {
+            return {
+                type: "ERROR",
+                message: `Could not find: "${jsBackupPath}".`,
+            }
+        }
+
+        tasks.push(`✅ Found backup: "${jsBackupPath}".`)
+
+        await copy(jsBackupPath, jsPath, {
+            overwrite: true,
+        })
+
+        tasks.push(`✅ Reverted changes: "${jsBackupPath}".`)
+
+        await Deno.remove(jsBackupPath)
+
+        tasks.push(`✅ Deleted backup: "${jsBackupPath}".`)
+
         return {
             type: "SUCCESSFUL",
             tasks,
         }
     }
+
+    // CSS
 
     if (!(await exists(cssPath))) {
         return {
@@ -70,38 +98,67 @@ export const updateVsCodeStyles = async (
         tasks.push(`✅ Created backup: "${cssBackupPath}".`)
     }
 
-    const CSS_CONTENT = await Deno.readTextFile(cssBackupPath)
+    // JS
 
-    let newCssContent = CSS_CONTENT
+    if (!(await exists(jsPath))) {
+        return {
+            type: "ERROR",
+            message: `Could not find "${jsPath}"!`,
+        }
+    }
+
+    tasks.push(`✅ Found: "${jsPath}".`)
+
+    if (!(await exists(jsBackupPath))) {
+        await copy(jsPath, jsBackupPath)
+
+        tasks.push(`✅ Created backup: "${jsBackupPath}".`)
+    }
+
+    // ---
+
+    let cssContent = await Deno.readTextFile(cssBackupPath)
+    let jsContent = await Deno.readTextFile(jsBackupPath)
 
     if (options?.["font"]) {
+        // CSS
+
         const customCssVariables = `
             :root {
                 --vscode-pretty-styles-font-family: ${options["font"]};
             }
         `
 
-        newCssContent = customCssVariables + newCssContent
+        cssContent = customCssVariables + cssContent
 
-        newCssContent = newCssContent.replace(
+        cssContent = cssContent.replace(
             "Segoe WPC,Segoe UI,sans-serif",
             `var(--vscode-pretty-styles-font-family)`,
         )
 
-        newCssContent += `
+        cssContent += `
             .composite.viewlet .scm-editor-placeholder,
             .composite.viewlet .view-lines.monaco-mouse-cursor-text,
             .editorPlaceholder {
                 font-family: var(--vscode-pretty-styles-font-family) !important;
             }
         `
+
+        // JS
+
+        jsContent = jsContent.replaceAll(
+            `"SF Mono", Monaco, Menlo, Consolas, "Ubuntu Mono", "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace`,
+            // TODO: THIS SHOULD BE MONOSPACED, IF USER PASSES SANS, THEN CODE FONT WOULD BE SANS TOO.
+            options["font"],
+        ).replaceAll(`"Segoe WPC", "Segoe UI", sans-serif`, options["font"])
     }
 
     if (options?.["css"]) {
-        newCssContent += "\n" + options["css"]
+        cssContent += "\n" + options["css"]
     }
 
-    await Deno.writeTextFile(cssPath, newCssContent)
+    await Deno.writeTextFile(cssPath, cssContent)
+    await Deno.writeTextFile(jsPath, jsContent)
 
     tasks.push("✅ The file content was rewritten.")
 

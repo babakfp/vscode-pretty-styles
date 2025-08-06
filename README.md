@@ -47,6 +47,7 @@ This is the file that I modify to get things working.
 
 ```
 C:\Users\Babak\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\workbench.desktop.main.css
+C:\Users\Babak\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\workbench.desktop.main.js
 ```
 
 ## How to open dev tools?
