@@ -23,32 +23,31 @@ export const updateVsCodeStyles = async (
 ): Promise<Result> => {
     const tasks: string[] = []
 
-    const WORKBENCH_DIR =
+    const workbenchDir =
         `${homeDir}\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\vs\\workbench`
 
-    const CSS_PATH = `${WORKBENCH_DIR}\\workbench.desktop.main.css`
-    const CSS_BACKUP_PATH =
-        `${WORKBENCH_DIR}\\workbench.desktop.main.backup.css`
+    const cssPath = `${workbenchDir}\\workbench.desktop.main.css`
+    const cssBackupPath = `${workbenchDir}\\workbench.desktop.main.backup.css`
 
     if (options?.["backup"]) {
-        if (!(await exists(CSS_BACKUP_PATH))) {
+        if (!(await exists(cssBackupPath))) {
             return {
                 type: "ERROR",
-                message: `Could not find: "${CSS_BACKUP_PATH}".`,
+                message: `Could not find: "${cssBackupPath}".`,
             }
         }
 
-        tasks.push(`✅ Found backup: "${CSS_BACKUP_PATH}".`)
+        tasks.push(`✅ Found backup: "${cssBackupPath}".`)
 
-        await copy(CSS_BACKUP_PATH, CSS_PATH, {
+        await copy(cssBackupPath, cssPath, {
             overwrite: true,
         })
 
-        tasks.push(`✅ Reverted changes: "${CSS_BACKUP_PATH}".`)
+        tasks.push(`✅ Reverted changes: "${cssBackupPath}".`)
 
-        await Deno.remove(CSS_BACKUP_PATH)
+        await Deno.remove(cssBackupPath)
 
-        tasks.push(`✅ Deleted backup: "${CSS_BACKUP_PATH}".`)
+        tasks.push(`✅ Deleted backup: "${cssBackupPath}".`)
 
         return {
             type: "SUCCESSFUL",
@@ -56,22 +55,22 @@ export const updateVsCodeStyles = async (
         }
     }
 
-    if (!(await exists(CSS_PATH))) {
+    if (!(await exists(cssPath))) {
         return {
             type: "ERROR",
-            message: `Could not find "${CSS_PATH}"!`,
+            message: `Could not find "${cssPath}"!`,
         }
     }
 
-    tasks.push(`✅ Found: "${CSS_PATH}".`)
+    tasks.push(`✅ Found: "${cssPath}".`)
 
-    if (!(await exists(CSS_BACKUP_PATH))) {
-        await copy(CSS_PATH, CSS_BACKUP_PATH)
+    if (!(await exists(cssBackupPath))) {
+        await copy(cssPath, cssBackupPath)
 
-        tasks.push(`✅ Created backup: "${CSS_BACKUP_PATH}".`)
+        tasks.push(`✅ Created backup: "${cssBackupPath}".`)
     }
 
-    const CSS_CONTENT = await Deno.readTextFile(CSS_BACKUP_PATH)
+    const CSS_CONTENT = await Deno.readTextFile(cssBackupPath)
 
     let newCssContent = CSS_CONTENT
 
@@ -102,7 +101,7 @@ export const updateVsCodeStyles = async (
         newCssContent += "\n" + options["css"]
     }
 
-    await Deno.writeTextFile(CSS_PATH, newCssContent)
+    await Deno.writeTextFile(cssPath, newCssContent)
 
     tasks.push("✅ The file content was rewritten.")
 
