@@ -148,7 +148,6 @@ export const updateVsCodeStyles = async (
 
         jsContent = jsContent.replaceAll(
             `"SF Mono", Monaco, Menlo, Consolas, "Ubuntu Mono", "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace`,
-            // TODO: THIS SHOULD BE MONOSPACED, IF USER PASSES SANS, THEN CODE FONT WOULD BE SANS TOO.
             options["font"],
         ).replaceAll(`"Segoe WPC", "Segoe UI", sans-serif`, options["font"])
     }
