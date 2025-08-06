@@ -70,6 +70,13 @@ export const serve = async (
         return await Deno.readTextFile(workbenchCSSStoragePath)
     }
 
+    const getStorageData = async () => ({
+        workbenchCSSStorage: await readWorkbenchCSSFromFileStorage(),
+        workbenchCSSStoragePath: workbenchCSSStoragePath,
+        iframeMarkdownCSSStorage: await readIframeMarkdownCSSFromFileStorage(),
+        iframeMarkdownCSSStoragePath: iframeMarkdownCSSStoragePath,
+    })
+
     const routes: Route[] = [
         {
             pattern: new URLPattern({ pathname: "/" }),
@@ -79,10 +86,7 @@ export const serve = async (
                     render(
                         <Index
                             workbenchFontFamily={workbenchFontFamily}
-                            workbenchCSSStorage={await readWorkbenchCSSFromFileStorage()}
-                            workbenchCSSStoragePath={workbenchCSSStoragePath}
-                            iframeMarkdownCSSStorage={await readIframeMarkdownCSSFromFileStorage()}
-                            iframeMarkdownCSSStoragePath={iframeMarkdownCSSStoragePath}
+                            {...await getStorageData()}
                         />,
                     ),
                 )
@@ -104,10 +108,7 @@ export const serve = async (
                             <Index
                                 statusText="Invalid data submitted!"
                                 workbenchFontFamily={workbenchFontFamily}
-                                workbenchCSSStorage={await readWorkbenchCSSFromFileStorage()}
-                                workbenchCSSStoragePath={workbenchCSSStoragePath}
-                                iframeMarkdownCSSStorage={await readIframeMarkdownCSSFromFileStorage()}
-                                iframeMarkdownCSSStoragePath={iframeMarkdownCSSStoragePath}
+                                {...await getStorageData()}
                             />,
                             { status: STATUS_CODE.BadRequest },
                         ),
@@ -131,10 +132,7 @@ export const serve = async (
                                 statusText='"Editor UI Font-Family" or "Custom CSS" cannot be empty!'
                                 workbenchFontFamily={formData.output
                                     ?.workbenchFontFamily}
-                                workbenchCSSStorage={await readWorkbenchCSSFromFileStorage()}
-                                workbenchCSSStoragePath={workbenchCSSStoragePath}
-                                iframeMarkdownCSSStorage={await readIframeMarkdownCSSFromFileStorage()}
-                                iframeMarkdownCSSStoragePath={iframeMarkdownCSSStoragePath}
+                                {...await getStorageData()}
                             />,
                             { status: STATUS_CODE.BadRequest, headers },
                         ),
@@ -170,10 +168,7 @@ export const serve = async (
                             statusText={statusText}
                             workbenchFontFamily={formData.output
                                 ?.workbenchFontFamily}
-                            workbenchCSSStorage={await readWorkbenchCSSFromFileStorage()}
-                            workbenchCSSStoragePath={workbenchCSSStoragePath}
-                            iframeMarkdownCSSStorage={await readIframeMarkdownCSSFromFileStorage()}
-                            iframeMarkdownCSSStoragePath={iframeMarkdownCSSStoragePath}
+                            {...await getStorageData()}
                         />,
                         { status, headers },
                     ),
