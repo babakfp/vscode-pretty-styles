@@ -64,35 +64,42 @@ export default (props?: {
                         )
                         : ""}
 
-                    {props?.workbenchCSSStorage
-                        ? (
-                            <>
-                                <hr />
-                                <h2>Workbench CSS</h2>
-                                <p>
-                                    <code>
-                                        {props.workbenchCSSStoragePath}
-                                    </code>:
-                                </p>
-                                <pre><code>{props.workbenchCSSStorage}</code></pre>
-                            </>
-                        )
-                        : ""}
+                    <br />
+                    <br />
 
-                    {props?.iframeMarkdownCSSStorage
-                        ? (
-                            <>
-                                <hr />
-                                <h2>Iframe Markdown CSS</h2>
-                                <p>
-                                    <code>
-                                        {props.iframeMarkdownCSSStoragePath}
-                                    </code>:
-                                </p>
-                                <pre><code>{props.iframeMarkdownCSSStorage}</code></pre>
-                            </>
-                        )
-                        : ""}
+                    <details name="css">
+                        <summary>Workbench CSS</summary>
+                        {props?.workbenchCSSStorage
+                            ? (
+                                <>
+                                    <p>
+                                        <code>
+                                            {props.workbenchCSSStoragePath}
+                                        </code>
+                                    </p>
+                                    <pre><code>{props.workbenchCSSStorage}</code></pre>
+                                </>
+                            )
+                            : ""}
+                    </details>
+
+                    <hr />
+
+                    <details name="css">
+                        <summary>Iframe Markdown CSS</summary>
+                        {props?.iframeMarkdownCSSStorage
+                            ? (
+                                <>
+                                    <p>
+                                        <code>
+                                            {props.iframeMarkdownCSSStoragePath}
+                                        </code>
+                                    </p>
+                                    <pre><code>{props.iframeMarkdownCSSStorage}</code></pre>
+                                </>
+                            )
+                            : ""}
+                    </details>
                 </form>
             </main>
         </Layout>
