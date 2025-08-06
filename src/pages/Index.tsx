@@ -3,22 +3,40 @@ import { Layout } from "../components/Layout.tsx"
 export default (props?: {
     statusCode?: number
     statusText?: string
-    font?: string
-    cssStorage: string
-    cssStoragePath: string
+    workbenchFontFamily?: string
+    workbenchCSSStorage: string
+    workbenchCSSStoragePath: string
+    iframeMarkdownCSSStorage: string
+    iframeMarkdownCSSStoragePath: string
 }) => {
     return (
         <Layout>
             <main class="container">
                 <form method="post" enctype="multipart/form-data">
                     <fieldset>
-                        <label for="font">Editor UI Font-Family</label>
-                        <input id="font" name="font" value={props?.font} />
-
-                        <label for="css">Custom CSS</label>
+                        <label for="workbenchFontFamily">
+                            Workbench Font Family
+                        </label>
                         <input
-                            id="css"
-                            name="css"
+                            id="workbenchFontFamily"
+                            name="workbenchFontFamily"
+                            value={props?.workbenchFontFamily}
+                        />
+
+                        <label for="workbenchCSS">Workbench CSS</label>
+                        <input
+                            id="workbenchCSS"
+                            name="workbenchCSS"
+                            type="file"
+                            accept="text/css"
+                        />
+
+                        <label for="iframeMarkdownCSS">
+                            Iframe Markdown CSS
+                        </label>
+                        <input
+                            id="iframeMarkdownCSS"
+                            name="iframeMarkdownCSS"
                             type="file"
                             accept="text/css"
                         />
@@ -27,7 +45,7 @@ export default (props?: {
                     <button type="submit">Submit</button>
                     <button
                         type="submit"
-                        name="backup"
+                        name="isRevertChanges"
                         value="true"
                         class="secondary"
                     >
@@ -46,15 +64,32 @@ export default (props?: {
                         )
                         : ""}
 
-                    {props?.cssStorage
+                    {props?.workbenchCSSStorage
                         ? (
                             <>
                                 <hr />
-                                <h2>CSS file</h2>
+                                <h2>Workbench CSS</h2>
                                 <p>
-                                    <code>{props?.cssStoragePath}</code>:
+                                    <code>
+                                        {props.workbenchCSSStoragePath}
+                                    </code>:
                                 </p>
-                                <pre><code>{props.cssStorage}</code></pre>
+                                <pre><code>{props.workbenchCSSStorage}</code></pre>
+                            </>
+                        )
+                        : ""}
+
+                    {props?.iframeMarkdownCSSStorage
+                        ? (
+                            <>
+                                <hr />
+                                <h2>Iframe Markdown CSS</h2>
+                                <p>
+                                    <code>
+                                        {props.iframeMarkdownCSSStoragePath}
+                                    </code>:
+                                </p>
+                                <pre><code>{props.iframeMarkdownCSSStorage}</code></pre>
                             </>
                         )
                         : ""}

@@ -36,43 +36,53 @@ export const serve = async (
 ) => {
     const APP_FOLDER_NAME = ".vscode-pretty-styles"
     const appStorageDir = `${homeDir}\\${APP_FOLDER_NAME}`
-    const fontStoragePath = `${appStorageDir}\\font.txt`
-    const cssStoragePath = `${appStorageDir}\\index.css`
+    const fontStoragePath = `${appStorageDir}\\workbench-font-family.txt`
+    const workbenchCSSStoragePath = `${appStorageDir}\\workbench-styles.css`
+    const iframeMarkdownCSSStoragePath =
+        `${appStorageDir}\\iframe-markdown-styles.css`
 
     await ensureFile(fontStoragePath)
-    await ensureFile(cssStoragePath)
+    await ensureFile(workbenchCSSStoragePath)
+    await ensureFile(iframeMarkdownCSSStoragePath)
 
-    const readFontFromFileStorage = async () => {
+    const readWorkbenchFontFamily = async () => {
         await ensureFile(fontStoragePath)
         return removeDuplicateWhitespace(
             (await Deno.readTextFile(fontStoragePath)).trim(),
         )
     }
 
-    const writeFontToFileStorage = async (font: string) => {
+    const writeFontToFileStorage = async (workbenchFontFamily: string) => {
         await ensureFile(fontStoragePath)
         return (await Deno.writeTextFile(
             fontStoragePath,
-            removeDuplicateWhitespace(font.trim()),
+            removeDuplicateWhitespace(workbenchFontFamily.trim()),
         ))
     }
 
-    const readCssFromFileStorage = async () => {
-        await ensureFile(cssStoragePath)
-        return await Deno.readTextFile(cssStoragePath)
+    const readWorkbenchCSSFromFileStorage = async () => {
+        await ensureFile(workbenchCSSStoragePath)
+        return await Deno.readTextFile(workbenchCSSStoragePath)
+    }
+
+    const readIframeMarkdownCSSFromFileStorage = async () => {
+        await ensureFile(workbenchCSSStoragePath)
+        return await Deno.readTextFile(workbenchCSSStoragePath)
     }
 
     const routes: Route[] = [
         {
             pattern: new URLPattern({ pathname: "/" }),
             handler: async () => {
-                const font = await readFontFromFileStorage()
+                const workbenchFontFamily = await readWorkbenchFontFamily()
                 return makeHTMLResponse(
                     render(
                         <Index
-                            font={font}
-                            cssStorage={await readCssFromFileStorage()}
-                            cssStoragePath={cssStoragePath}
+                            workbenchFontFamily={workbenchFontFamily}
+                            workbenchCSSStorage={await readWorkbenchCSSFromFileStorage()}
+                            workbenchCSSStoragePath={workbenchCSSStoragePath}
+                            iframeMarkdownCSSStorage={await readIframeMarkdownCSSFromFileStorage()}
+                            iframeMarkdownCSSStoragePath={iframeMarkdownCSSStoragePath}
                         />,
                     ),
                 )
@@ -88,14 +98,16 @@ export const serve = async (
                 )
 
                 if (!formData.success) {
-                    const font = await readFontFromFileStorage()
+                    const workbenchFontFamily = await readWorkbenchFontFamily()
                     return makeHTMLResponse(
                         render(
                             <Index
                                 statusText="Invalid data submitted!"
-                                font={font}
-                                cssStorage={await readCssFromFileStorage()}
-                                cssStoragePath={cssStoragePath}
+                                workbenchFontFamily={workbenchFontFamily}
+                                workbenchCSSStorage={await readWorkbenchCSSFromFileStorage()}
+                                workbenchCSSStoragePath={workbenchCSSStoragePath}
+                                iframeMarkdownCSSStorage={await readIframeMarkdownCSSFromFileStorage()}
+                                iframeMarkdownCSSStoragePath={iframeMarkdownCSSStoragePath}
                             />,
                             { status: STATUS_CODE.BadRequest },
                         ),
@@ -103,23 +115,26 @@ export const serve = async (
                 }
 
                 const headers = new Headers()
-                if (formData.output?.font) {
-                    writeFontToFileStorage(formData.output.font)
+                if (formData.output?.workbenchFontFamily) {
+                    writeFontToFileStorage(formData.output.workbenchFontFamily)
                 }
 
                 if (
-                    !formData.output?.backup &&
-                    !formData.output?.font &&
-                    !formData.output?.css
+                    !formData.output?.isRevertChanges &&
+                    !formData.output?.workbenchFontFamily &&
+                    !formData.output?.workbenchCSS
                 ) {
                     return makeHTMLResponse(
                         render(
                             <Index
                                 statusCode={STATUS_CODE.BadRequest}
                                 statusText='"Editor UI Font-Family" or "Custom CSS" cannot be empty!'
-                                font={formData.output?.font}
-                                cssStorage={await readCssFromFileStorage()}
-                                cssStoragePath={cssStoragePath}
+                                workbenchFontFamily={formData.output
+                                    ?.workbenchFontFamily}
+                                workbenchCSSStorage={await readWorkbenchCSSFromFileStorage()}
+                                workbenchCSSStoragePath={workbenchCSSStoragePath}
+                                iframeMarkdownCSSStorage={await readIframeMarkdownCSSFromFileStorage()}
+                                iframeMarkdownCSSStoragePath={iframeMarkdownCSSStoragePath}
                             />,
                             { status: STATUS_CODE.BadRequest, headers },
                         ),
@@ -128,17 +143,17 @@ export const serve = async (
 
                 const result = await updateVsCodeStyles(homeDir, {
                     ...formData.output,
-                    css: await readCssFromFileStorage() +
-                        (formData.output.css instanceof File
-                            ? await formData.output.css.text()
-                            : formData.output.css),
+                    workbenchCSS: await readWorkbenchCSSFromFileStorage() +
+                        (formData.output.workbenchCSS instanceof File
+                            ? await formData.output.workbenchCSS.text()
+                            : formData.output.workbenchCSS),
                 })
 
                 let statusText: string
 
                 if (result.type === "ERROR") {
                     statusText = result.message
-                } else if (formData.output?.backup) {
+                } else if (formData.output?.isRevertChanges) {
                     statusText = "Original styles restored successfully!"
                 } else {
                     statusText = "Custom styles were added successfully!"
@@ -153,9 +168,12 @@ export const serve = async (
                         <Index
                             statusCode={status}
                             statusText={statusText}
-                            font={formData.output?.font}
-                            cssStorage={await readCssFromFileStorage()}
-                            cssStoragePath={cssStoragePath}
+                            workbenchFontFamily={formData.output
+                                ?.workbenchFontFamily}
+                            workbenchCSSStorage={await readWorkbenchCSSFromFileStorage()}
+                            workbenchCSSStoragePath={workbenchCSSStoragePath}
+                            iframeMarkdownCSSStorage={await readIframeMarkdownCSSFromFileStorage()}
+                            iframeMarkdownCSSStoragePath={iframeMarkdownCSSStoragePath}
                         />,
                         { status, headers },
                     ),

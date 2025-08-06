@@ -1,8 +1,8 @@
 import * as v from "@valibot/valibot"
 
 export const FormSchema = v.object({
-    font: v.optional(v.string()),
-    css: v.optional(
+    workbenchFontFamily: v.optional(v.string()),
+    workbenchCSS: v.optional(
         v.union([
             v.string(),
             v.pipe(
@@ -17,7 +17,7 @@ export const FormSchema = v.object({
             ),
         ]),
     ),
-    backup: v.optional(
+    isRevertChanges: v.optional(
         v.pipe(
             v.literal("true"),
             v.transform(() => true),

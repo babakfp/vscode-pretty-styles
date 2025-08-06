@@ -2,9 +2,10 @@ import { exists } from "@std/fs/exists"
 import { copy } from "@std/fs/copy"
 
 type Options = {
-    font?: string
-    css?: string
-    backup?: boolean
+    workbenchFontFamily?: string
+    workbenchCSS?: string
+    iframeMarkdownCSS?: string
+    isRevertChanges?: boolean
 }
 
 type Result =
@@ -32,7 +33,7 @@ export const updateVsCodeStyles = async (
     const jsPath = `${workbenchDir}\\workbench.desktop.main.js`
     const jsBackupPath = `${workbenchDir}\\workbench.desktop.main.backup.js`
 
-    if (options?.["backup"]) {
+    if (options?.isRevertChanges) {
         // CSS
 
         if (!(await exists(cssBackupPath))) {
@@ -120,12 +121,12 @@ export const updateVsCodeStyles = async (
     let cssContent = await Deno.readTextFile(cssBackupPath)
     let jsContent = await Deno.readTextFile(jsBackupPath)
 
-    if (options?.["font"]) {
+    if (options?.workbenchFontFamily) {
         // CSS
 
         const customCssVariables = `
             :root {
-                --vscode-pretty-styles-font-family: ${options["font"]};
+                --vscode-pretty-styles-font-family: ${options.workbenchFontFamily};
             }
         `
 
@@ -148,12 +149,29 @@ export const updateVsCodeStyles = async (
 
         jsContent = jsContent.replaceAll(
             `"SF Mono", Monaco, Menlo, Consolas, "Ubuntu Mono", "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace`,
-            options["font"],
-        ).replaceAll(`"Segoe WPC", "Segoe UI", sans-serif`, options["font"])
+            options.workbenchFontFamily,
+        ).replaceAll(
+            `"Segoe WPC", "Segoe UI", sans-serif`,
+            options.workbenchFontFamily,
+        )
     }
 
-    if (options?.["css"]) {
-        cssContent += "\n" + options["css"]
+    if (options?.workbenchCSS) {
+        cssContent += "\n" + options.workbenchCSS
+    }
+
+    if (options?.iframeMarkdownCSS) {
+        const searchValue = [
+            `@media (forced-colors: active) and (prefers-color-scheme: dark){`,
+            `	body {`,
+            `		forced-color-adjust: none;`,
+            `	}`,
+            `}`,
+        ].join("")
+        jsContent = jsContent.replace(
+            searchValue,
+            `${searchValue}\n${options.iframeMarkdownCSS}`,
+        )
     }
 
     await Deno.writeTextFile(cssPath, cssContent)
