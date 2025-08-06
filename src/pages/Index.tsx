@@ -1,6 +1,6 @@
 import { Layout } from "../components/Layout.tsx"
 
-export default (props?: {
+export default (props: {
     statusCode?: number
     statusText?: string
     workbenchFontFamily?: string
@@ -20,7 +20,7 @@ export default (props?: {
                         <input
                             id="workbenchFontFamily"
                             name="workbenchFontFamily"
-                            value={props?.workbenchFontFamily}
+                            value={props.workbenchFontFamily}
                         />
 
                         <label for="workbenchCSS">Workbench CSS</label>
@@ -52,14 +52,14 @@ export default (props?: {
                         Revert Changes
                     </button>
 
-                    {props?.statusText
+                    {props.statusText
                         ? (
                             <p
-                                class={props?.statusCode === 200
+                                class={props.statusCode === 200
                                     ? "pico-color-green-300"
                                     : "pico-color-pink-300"}
                             >
-                                {props?.statusText}
+                                {props.statusText}
                             </p>
                         )
                         : ""}
@@ -69,36 +69,24 @@ export default (props?: {
 
                     <details name="css">
                         <summary>Workbench CSS</summary>
-                        {props?.workbenchCSSStorage
-                            ? (
-                                <>
-                                    <p>
-                                        <code>
-                                            {props.workbenchCSSStoragePath}
-                                        </code>
-                                    </p>
-                                    <pre><code>{props.workbenchCSSStorage}</code></pre>
-                                </>
-                            )
-                            : ""}
+                        <p>
+                            <code>{props.workbenchCSSStoragePath}</code>
+                        </p>
+                        {props.workbenchCSSStorage &&
+                            <pre><code>{props.workbenchCSSStorage}</code></pre>}
                     </details>
 
                     <hr />
 
                     <details name="css">
                         <summary>Iframe Markdown CSS</summary>
-                        {props?.iframeMarkdownCSSStorage
-                            ? (
-                                <>
-                                    <p>
-                                        <code>
-                                            {props.iframeMarkdownCSSStoragePath}
-                                        </code>
-                                    </p>
-                                    <pre><code>{props.iframeMarkdownCSSStorage}</code></pre>
-                                </>
-                            )
-                            : ""}
+                        <p>
+                            <code>{props.iframeMarkdownCSSStoragePath}</code>
+                        </p>
+                        {props.iframeMarkdownCSSStorage &&
+                            (
+                                <pre><code>{props.iframeMarkdownCSSStorage}</code></pre>
+                            )}
                     </details>
                 </form>
             </main>
