@@ -11,6 +11,7 @@
 
 :root {
     --pico-font-family: "Geist";
+    --pico-font-family-monospace: "Geist";
 
     --pico-border-width: 0.125rem;
     --pico-border-radius: 0.5rem;
