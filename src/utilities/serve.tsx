@@ -66,8 +66,8 @@ export const serve = async (
     }
 
     const readIframeMarkdownCSSFromFileStorage = async () => {
-        await ensureFile(workbenchCSSStoragePath)
-        return await Deno.readTextFile(workbenchCSSStoragePath)
+        await ensureFile(iframeMarkdownCSSStoragePath)
+        return await Deno.readTextFile(iframeMarkdownCSSStoragePath)
     }
 
     const getStorageData = async () => ({
