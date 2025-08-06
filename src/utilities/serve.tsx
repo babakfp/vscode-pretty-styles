@@ -145,6 +145,11 @@ export const serve = async (
                         (formData.output.workbenchCSS instanceof File
                             ? await formData.output.workbenchCSS.text()
                             : formData.output.workbenchCSS),
+                    iframeMarkdownCSS:
+                        await readIframeMarkdownCSSFromFileStorage() +
+                        (formData.output.iframeMarkdownCSS instanceof File
+                            ? await formData.output.iframeMarkdownCSS.text()
+                            : formData.output.iframeMarkdownCSS),
                 })
 
                 let statusText: string
