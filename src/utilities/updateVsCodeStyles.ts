@@ -167,7 +167,7 @@ export const updateVsCodeStyles = async (
             `		forced-color-adjust: none;`,
             `	}`,
             `}`,
-        ].join("")
+        ].join("\n")
         jsContent = jsContent.replace(
             searchValue,
             `${searchValue}\n${options.iframeMarkdownCSS}`,
