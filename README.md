@@ -55,6 +55,12 @@ C:\Users\Babak\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\wor
 1. Press `ctrl` + `shift` + `p`.
 2. Select "Toggle Developer Tools".
 
+## App storage paths
+
+- `<HOME_DIR>/.vscode-pretty-styles/workbench-font-family.txt`
+- `<HOME_DIR>/.vscode-pretty-styles/workbench-styles.css`
+- `<HOME_DIR>/.vscode-pretty-styles/iframe-markdown-styles.css`
+
 ## License
 
 Icon by [Icon8](https://icons8.com).
