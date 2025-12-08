@@ -1,7 +1,7 @@
 /* Font */
 
 @font-face {
-    font-family: "Geist";
+    font-family: "Geist Mono";
     font-weight: 100 900;
     src: url("/public/fonts/GeistMonoVF.woff2") format("woff2-variations");
     font-display: block;
@@ -10,8 +10,8 @@
 /* Change PicoCSS variables */
 
 :root {
-    --pico-font-family: "Geist";
-    --pico-font-family-monospace: "Geist";
+    --pico-font-family: "Geist Mono";
+    --pico-font-family-monospace: "Geist Mono";
 
     --pico-border-width: 0.125rem;
     --pico-border-radius: 0.5rem;
