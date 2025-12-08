@@ -18,10 +18,10 @@ export const Layout = (
                 crossorigin="anonymous"
             />
 
-            <link rel="stylesheet" href="/public/css/pico@2.0.6.css" />
+            <link rel="stylesheet" href="/public/css/pico.min.css" />
             <link
                 rel="stylesheet"
-                href="/public/css/pico@2.0.6.colors.min.css"
+                href="/public/css/pico.colors.min.css"
             />
             <link rel="stylesheet" href="/public/css/index.css" />
         </head>
