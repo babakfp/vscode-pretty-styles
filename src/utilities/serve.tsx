@@ -197,8 +197,11 @@ export const serve = async (
                     url.pathname === `/public/${e}`
                 )
                 if (!path) return defaultHandler(request)
+
                 const file = await embed.get(path)
-                const text = await file?.text()
+                if (!file) return defaultHandler(request)
+
+                const text = await file.text()
                 return new Response(text)
             },
         })
