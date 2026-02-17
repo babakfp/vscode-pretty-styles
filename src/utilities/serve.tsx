@@ -5,12 +5,12 @@ import * as v from "@valibot/valibot"
 import { FormSchema } from "./FormSchema.ts"
 import { updateVsCodeStyles } from "./updateVsCodeStyles.ts"
 import Index from "../pages/Index.tsx"
-import embed from "../../embed/public/dir.ts"
 import { type Route, route } from "@std/http/unstable-route"
 import { serveDir } from "@std/http/file-server"
 import { render } from "preact-render-to-string"
 import { ensureFile } from "@std/fs/ensure-file"
 import { contentType } from "@std/media-types/content-type"
+import * as path from "@std/path"
 
 export const makeHTMLResponse = (
     body?: BodyInit | null,
@@ -189,20 +189,21 @@ export const serve = async (
     ]
 
     if (Deno.build.standalone) {
+        const cfd = import.meta.dirname
+        if (!cfd) {
+            throw new Error(
+                "Could not find the root directory of the current file!",
+            )
+        }
+        const rootDir = path.join(cfd, "../..")
+
         routes.push({
             pattern: new URLPattern({ pathname: "/public/*" }),
             handler: async (request) => {
                 const url = new URL(request.url)
-                const path = embed.list().find((e) =>
-                    url.pathname === `/public/${e}`
-                )
-                if (!path) return defaultHandler()
-
-                const file = await embed.get(path)
-                if (!file) return defaultHandler()
-
-                const text = await file.text()
-                return new Response(text)
+                const filePath = path.join(rootDir, url.pathname)
+                const buffer = await Deno.readFile(filePath)
+                return new Response(buffer)
             },
         })
     } else {
