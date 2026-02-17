@@ -196,10 +196,10 @@ export const serve = async (
                 const path = embed.list().find((e) =>
                     url.pathname === `/public/${e}`
                 )
-                if (!path) return defaultHandler(request)
+                if (!path) return defaultHandler()
 
                 const file = await embed.get(path)
-                if (!file) return defaultHandler(request)
+                if (!file) return defaultHandler()
 
                 const text = await file.text()
                 return new Response(text)
@@ -208,13 +208,13 @@ export const serve = async (
     } else {
         routes.push({
             pattern: new URLPattern({ pathname: "/public/*" }),
-            handler: (req: Request) => serveDir(req),
+            handler: (req) => serveDir(req),
         })
     }
 
     const port = Deno.build.standalone ? getAvailablePort() : 3000
 
-    const defaultHandler = (_req: Request) => {
+    const defaultHandler = () => {
         return new Response(STATUS_TEXT[STATUS_CODE.NotFound], {
             status: STATUS_CODE.NotFound,
         })
