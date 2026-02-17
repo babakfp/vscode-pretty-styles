@@ -57,9 +57,16 @@ C:\Users\Babak\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\wor
 
 ## App storage paths
 
-- `<HOME_DIR>/.vscode-pretty-styles/workbench-font-family.txt`
-- `<HOME_DIR>/.vscode-pretty-styles/workbench-styles.css`
-- `<HOME_DIR>/.vscode-pretty-styles/iframe-markdown-styles.css`
+Files:
+
+- `workbench-font-family.txt`
+- `workbench-styles.css`
+- `iframe-markdown-styles.css`
+
+Directories:
+
+- `vscode-pretty-styles/config` (inside app root folder)
+- `<HOME_DIR>/.vscode-pretty-styles`
 
 ## License
 

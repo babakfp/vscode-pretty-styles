@@ -1,3 +1,4 @@
+import { exists } from "@std/fs/exists"
 import { getAvailablePort } from "@std/net"
 import { STATUS_CODE, STATUS_TEXT } from "@std/http/status"
 import * as v from "@valibot/valibot"
@@ -35,7 +36,12 @@ export const serve = async (
     { homeDir }: { homeDir: string },
 ) => {
     const APP_FOLDER_NAME = ".vscode-pretty-styles"
-    const appStorageDir = `${homeDir}\\${APP_FOLDER_NAME}`
+    const appHomeDirStorageDir = `${homeDir}\\${APP_FOLDER_NAME}`
+    const appStorageDir = Deno.build.standalone
+        ? await exists(appHomeDirStorageDir)
+            ? appHomeDirStorageDir
+            : `${Deno.cwd()}\\config`
+        : appHomeDirStorageDir
     const fontStoragePath = `${appStorageDir}\\workbench-font-family.txt`
     const workbenchCSSStoragePath = `${appStorageDir}\\workbench-styles.css`
     const iframeMarkdownCSSStoragePath =
