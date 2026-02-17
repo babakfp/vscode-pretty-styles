@@ -11,8 +11,8 @@
         "@std/media-types": "jsr:@std/media-types@^1.1.0",
         "@std/net": "jsr:@std/net@1.0.4",
         "@valibot/valibot": "jsr:@valibot/valibot@1.1.0",
-        "preact": "npm:preact@^10.26.9",
-        "preact-render-to-string": "npm:preact-render-to-string@^6.5.13"
+        "preact": "npm:preact@^10.28.3",
+        "preact-render-to-string": "npm:preact-render-to-string@^6.6.5"
     },
     "compilerOptions": {
         "jsx": "precompile",
