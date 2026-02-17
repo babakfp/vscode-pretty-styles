@@ -237,6 +237,8 @@ export const serve = async (
                     new Deno.Command("powershell", {
                         args: ["Start-Process", url],
                     }).spawn()
+
+                    console.log("You can close this window after you're done.")
                 }
             },
         },
