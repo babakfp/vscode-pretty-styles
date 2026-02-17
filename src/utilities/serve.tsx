@@ -189,12 +189,7 @@ export const serve = async (
     ]
 
     if (Deno.build.standalone) {
-        const cfd = import.meta.dirname
-        if (!cfd) {
-            throw new Error(
-                "Could not find the root directory of the current file!",
-            )
-        }
+        const cfd = path.dirname(path.fromFileUrl(import.meta.url))
         const rootDir = path.join(cfd, "../..")
 
         routes.push({
