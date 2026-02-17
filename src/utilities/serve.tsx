@@ -192,8 +192,8 @@ export const serve = async (
                 )
                 if (!path) return defaultHandler(request)
                 const file = await embed.get(path)
-                const bytes = await file!.bytes()
-                return new Response(bytes)
+                const text = await file?.text()
+                return new Response(text)
             },
         })
     } else {
