@@ -1,15 +1,15 @@
 import { serve } from "./utilities/serve.tsx"
 
 if (Deno.build.os !== "windows") {
-    console.log("This script only works on Windows!")
-    Deno.exit()
+    console.error("This script only works on Windows.")
+    Deno.exit(1)
 }
 
 const homeDir = Deno.env.get("USERPROFILE")
 
 if (!homeDir) {
-    console.log("Could not find home dir!")
-    Deno.exit()
+    console.error("Could not find the home directory.")
+    Deno.exit(1)
 }
 
 await serve({ homeDir })
