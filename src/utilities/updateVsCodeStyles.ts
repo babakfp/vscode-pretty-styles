@@ -1,5 +1,6 @@
 import { exists } from "@std/fs/exists"
 import { copy } from "@std/fs/copy"
+import * as path from "@std/path"
 
 type Options = {
     workbenchFontFamily?: string
@@ -24,21 +25,41 @@ export const updateVsCodeStyles = async (
 ): Promise<Result> => {
     const tasks: string[] = []
 
-    const vscodeRoot = `${homeDir}\\AppData\\Local\\Programs\\Microsoft VS Code`
+    const vscodeRoot = path.join(
+        homeDir,
+        "AppData",
+        "Local",
+        "Programs",
+        "Microsoft VS Code",
+    )
     const vscodeDir = await resolveVsCodeDir(vscodeRoot)
     if (!vscodeDir) {
         return {
             type: "ERROR",
-            message: `Could not find VS Code installation under "${vscodeRoot}".`,
+            message:
+                `Could not find VS Code installation under "${vscodeRoot}".`,
         }
     }
-    const workbenchDir = `${vscodeDir}\\resources\\app\\out\\vs\\workbench`
+    const workbenchDir = path.join(
+        vscodeDir,
+        "resources",
+        "app",
+        "out",
+        "vs",
+        "workbench",
+    )
 
-    const cssPath = `${workbenchDir}\\workbench.desktop.main.css`
-    const cssBackupPath = `${workbenchDir}\\workbench.desktop.main.backup.css`
+    const cssPath = path.join(workbenchDir, "workbench.desktop.main.css")
+    const cssBackupPath = path.join(
+        workbenchDir,
+        "workbench.desktop.main.backup.css",
+    )
 
-    const jsPath = `${workbenchDir}\\workbench.desktop.main.js`
-    const jsBackupPath = `${workbenchDir}\\workbench.desktop.main.backup.js`
+    const jsPath = path.join(workbenchDir, "workbench.desktop.main.js")
+    const jsBackupPath = path.join(
+        workbenchDir,
+        "workbench.desktop.main.backup.js",
+    )
 
     if (options?.isRevertChanges) {
         // CSS
@@ -195,15 +216,15 @@ export const updateVsCodeStyles = async (
 const resolveVsCodeDir = async (
     vscodeRoot: string,
 ): Promise<string | null> => {
-    const directResourcesPath = `${vscodeRoot}\\resources\\app`
+    const directResourcesPath = path.join(vscodeRoot, "resources", "app")
     if (await exists(directResourcesPath)) {
         return vscodeRoot
     }
 
     for await (const entry of Deno.readDir(vscodeRoot)) {
         if (!entry.isDirectory) continue
-        const candidate = `${vscodeRoot}\\${entry.name}`
-        const candidateResourcesPath = `${candidate}\\resources\\app`
+        const candidate = path.join(vscodeRoot, entry.name)
+        const candidateResourcesPath = path.join(candidate, "resources", "app")
         if (await exists(candidateResourcesPath)) {
             return candidate
         }

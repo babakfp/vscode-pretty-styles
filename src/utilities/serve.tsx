@@ -36,16 +36,24 @@ export const serve = async (
     { homeDir }: { homeDir: string },
 ) => {
     const APP_FOLDER_NAME = ".vscode-pretty-styles"
-    const appHomeDirStorageDir = `${homeDir}\\${APP_FOLDER_NAME}`
+    const appHomeDirStorageDir = path.join(homeDir, APP_FOLDER_NAME)
     const appStorageDir = Deno.build.standalone
         ? await exists(appHomeDirStorageDir)
             ? appHomeDirStorageDir
-            : `${Deno.cwd()}\\config`
+            : path.join(Deno.cwd(), "config")
         : appHomeDirStorageDir
-    const fontStoragePath = `${appStorageDir}\\workbench-font-family.txt`
-    const workbenchCSSStoragePath = `${appStorageDir}\\workbench-styles.css`
-    const iframeMarkdownCSSStoragePath =
-        `${appStorageDir}\\iframe-markdown-styles.css`
+    const fontStoragePath = path.join(
+        appStorageDir,
+        "workbench-font-family.txt",
+    )
+    const workbenchCSSStoragePath = path.join(
+        appStorageDir,
+        "workbench-styles.css",
+    )
+    const iframeMarkdownCSSStoragePath = path.join(
+        appStorageDir,
+        "iframe-markdown-styles.css",
+    )
 
     await ensureFile(fontStoragePath)
     await ensureFile(workbenchCSSStoragePath)
