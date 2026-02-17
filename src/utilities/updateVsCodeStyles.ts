@@ -24,7 +24,14 @@ export const updateVsCodeStyles = async (
 ): Promise<Result> => {
     const tasks: string[] = []
 
-    const vscodeDir = `${homeDir}\\AppData\\Local\\Programs\\Microsoft VS Code`
+    const vscodeRoot = `${homeDir}\\AppData\\Local\\Programs\\Microsoft VS Code`
+    const vscodeDir = await resolveVsCodeDir(vscodeRoot)
+    if (!vscodeDir) {
+        return {
+            type: "ERROR",
+            message: `Could not find VS Code installation under "${vscodeRoot}".`,
+        }
+    }
     const workbenchDir = `${vscodeDir}\\resources\\app\\out\\vs\\workbench`
 
     const cssPath = `${workbenchDir}\\workbench.desktop.main.css`
@@ -183,4 +190,24 @@ export const updateVsCodeStyles = async (
         type: "SUCCESSFUL",
         tasks,
     }
+}
+
+const resolveVsCodeDir = async (
+    vscodeRoot: string,
+): Promise<string | null> => {
+    const directResourcesPath = `${vscodeRoot}\\resources\\app`
+    if (await exists(directResourcesPath)) {
+        return vscodeRoot
+    }
+
+    for await (const entry of Deno.readDir(vscodeRoot)) {
+        if (!entry.isDirectory) continue
+        const candidate = `${vscodeRoot}\\${entry.name}`
+        const candidateResourcesPath = `${candidate}\\resources\\app`
+        if (await exists(candidateResourcesPath)) {
+            return candidate
+        }
+    }
+
+    return null
 }
