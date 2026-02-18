@@ -18,9 +18,10 @@ jobs:
       - run: deno task compile
       - run: Compress-Archive -Path "vscode-pretty-styles\\*" -DestinationPath "vscode-pretty-styles.zip"
       - name: Read tag message
+        shell: pwsh
         run: |
-          msg="$(git tag -l --format='%(contents)' "${GITHUB_REF_NAME}")"
-          printf "%s\n\n" "$msg" > release-notes.txt
+          $msg = git tag -l --format="%(contents)" $env:GITHUB_REF_NAME
+          $msg | Out-File -FilePath release-notes.txt -Encoding utf8
       - uses: softprops/action-gh-release@v2
         with:
           body_path: release-notes.txt
