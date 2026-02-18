@@ -16,7 +16,7 @@ jobs:
         with:
           deno-version-file: .tool-versions
       - run: deno task compile
-      - run: zip -r vscode-pretty-styles.zip vscode-pretty-styles
+      - run: Compress-Archive -Path "vscode-pretty-styles\\*" -DestinationPath "vscode-pretty-styles.zip"
       - name: Read tag message
         run: |
           msg="$(git tag -l --format='%(contents)' "${GITHUB_REF_NAME}")"
