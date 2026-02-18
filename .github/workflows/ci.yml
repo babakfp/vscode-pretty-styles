@@ -1,0 +1,28 @@
+name: build
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version-file: .tool-versions
+      - run: deno task compile
+      - run: zip -r vscode-pretty-styles.zip vscode-pretty-styles
+      - name: Read tag message
+        run: |
+          msg="$(git tag -l --format='%(contents)' "${GITHUB_REF_NAME}")"
+          printf "%s\n\n" "$msg" > release-notes.txt
+      - uses: softprops/action-gh-release@v2
+        with:
+          body_path: release-notes.txt
+          files: vscode-pretty-styles.zip
+          generate_release_notes: true

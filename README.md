@@ -18,6 +18,27 @@ check out the source [code](/src/utilities/updateVsCodeStyles.ts).
 2. Extract the downloaded file.
 3. Run the executable `vscode-pretty-styles.exe`.
 
+## Releases (tags)
+
+The GitHub Actions workflow runs only when you push a tag like `v1.0.0`.
+
+Annotated tag (recommended, includes a message at the top of release notes):
+
+```
+git tag -a v1.0.0 -m "Short release summary"
+git push origin v1.0.0
+```
+
+Lightweight tag (no message):
+
+```
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+Tip: normal `git push` from GitLens usually does not push tags. Use "Push Tags"
+in GitLens or run one of the commands above.
+
 ## CSS variables
 
 - `--vscode-pretty-styles-font-family`.
