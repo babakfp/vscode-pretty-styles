@@ -11,63 +11,71 @@ export default (props: {
 }) => {
     return (
         <Layout>
-            <main class="container">
-                <form method="post" enctype="multipart/form-data">
-                    <fieldset>
-                        <label for="workbenchFontFamily">
-                            Workbench Font Family
-                        </label>
-                        <input
-                            id="workbenchFontFamily"
-                            name="workbenchFontFamily"
-                            value={props.workbenchFontFamily}
-                        />
+            <main class="container-fluid">
+                <br />
+                <br />
+                <br />
 
-                        <label for="workbenchCSS">Workbench CSS</label>
-                        <input
-                            id="workbenchCSS"
-                            name="workbenchCSS"
-                            type="file"
-                            accept="text/css"
-                        />
+                <div class="container">
+                    <form method="post" enctype="multipart/form-data">
+                        <fieldset>
+                            <label for="workbenchFontFamily">
+                                Workbench Font Family
+                            </label>
+                            <input
+                                id="workbenchFontFamily"
+                                name="workbenchFontFamily"
+                                value={props.workbenchFontFamily}
+                            />
 
-                        <label for="iframeMarkdownCSS">
-                            Iframe Markdown CSS
-                        </label>
-                        <input
-                            id="iframeMarkdownCSS"
-                            name="iframeMarkdownCSS"
-                            type="file"
-                            accept="text/css"
-                        />
-                    </fieldset>
+                            <label for="workbenchCSS">Workbench CSS</label>
+                            <input
+                                id="workbenchCSS"
+                                name="workbenchCSS"
+                                type="file"
+                                accept="text/css"
+                            />
 
-                    <button type="submit">Submit</button>
-                    <button
-                        type="submit"
-                        name="isRevertChanges"
-                        value="true"
-                        class="secondary"
-                    >
-                        Revert Changes
-                    </button>
+                            <label for="iframeMarkdownCSS">
+                                Iframe Markdown CSS
+                            </label>
+                            <input
+                                id="iframeMarkdownCSS"
+                                name="iframeMarkdownCSS"
+                                type="file"
+                                accept="text/css"
+                            />
+                        </fieldset>
 
-                    {props.statusText
-                        ? (
-                            <p
-                                class={props.statusCode === 200
-                                    ? "pico-color-green-300"
-                                    : "pico-color-pink-300"}
-                            >
-                                {props.statusText}
-                            </p>
-                        )
-                        : ""}
+                        <button type="submit">Submit</button>
+                        <button
+                            type="submit"
+                            name="isRevertChanges"
+                            value="true"
+                            class="secondary"
+                        >
+                            Revert Changes
+                        </button>
 
-                    <br />
-                    <br />
-                    <hr />
+                        {props.statusText
+                            ? (
+                                <p
+                                    class={props.statusCode === 200
+                                        ? "pico-color-green-300"
+                                        : "pico-color-pink-300"}
+                                >
+                                    {props.statusText}
+                                </p>
+                            )
+                            : ""}
+                    </form>
+                </div>
 
+                <br />
+                <hr />
+                <br />
+
+                <div class="container">
                     <details name="css">
                         <summary role="button" class="outline secondary">
                             Workbench CSS
@@ -91,7 +99,11 @@ export default (props: {
                                 <pre><code>{props.iframeMarkdownCSSStorage}</code></pre>
                             )}
                     </details>
-                </form>
+                </div>
+
+                <br />
+                <br />
+                <br />
             </main>
         </Layout>
     )

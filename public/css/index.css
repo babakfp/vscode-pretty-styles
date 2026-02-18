@@ -14,24 +14,13 @@
     --pico-font-family-monospace: "Geist Mono";
 
     --pico-border-width: 0.125rem;
-    --pico-border-radius: 0.5rem;
+    --pico-border-radius: 0;
 }
 
-/* Center content */
+/* --- */
 
 body {
-    font-family: var(--pico-font-family);
-
-    display: flex;
-    align-items: center;
-    padding-top: 5rem;
-    padding-bottom: 4rem;
-}
-
-/* Reset User Agent stylesheet */
-
-form {
-    margin-bottom: 0;
+    user-select: none;
 }
 
 /* Fix PicoCSS stylesheet */
@@ -61,6 +50,7 @@ form {
 }
 
 /* Fix PicoCSS label styles */
+
 label {
     display: inline-block;
 }
@@ -69,16 +59,6 @@ label {
 
 .container {
     max-width: 510px !important;
-}
-
-/* --- */
-
-h1 {
-    margin-bottom: calc(var(--pico-spacing) + var(--pico-spacing));
-}
-
-footer {
-    margin-top: var(--pico-spacing);
 }
 
 /* --- */
