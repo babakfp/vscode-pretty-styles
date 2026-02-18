@@ -1,7 +1,7 @@
 {
     "tasks": {
         "dev": "deno run -A --watch src/main.ts",
-        "compile": "deno compile -A --include public --icon public/icon.ico -o build/vscode-pretty-styles src/main.ts"
+        "compile": "deno compile -A --include public --icon public/icon.ico -o \"vscode-pretty-styles/VS Code Pretty Styles\" src/main.ts"
     },
     "imports": {
         "@std/fs": "jsr:@std/fs@1.0.22",
