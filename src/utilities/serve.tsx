@@ -143,7 +143,7 @@ export const serve = async (
                         render(
                             <Index
                                 statusCode={STATUS_CODE.BadRequest}
-                                statusText='"Editor UI Font-Family" or "Custom CSS" cannot be empty!'
+                                statusText='"Workbench Font-Family" or "Custom CSS" cannot be empty!'
                                 workbenchFontFamily={formData.output
                                     ?.workbenchFontFamily}
                                 {...await getStorageData()}

@@ -1,9 +1,9 @@
 # vsCode Pretty Styles
 
-A **Windows** application that allows you to Customize vsCode Editor UI
-Font-Family and add your own Custom CSS styles.
+A **Windows** application that allows you to customize vsCode Workbench font
+family and add your own custom CSS.
 
-![A screenshot of the application UI](/app.png)
+![A screenshot of the application](/app.png)
 
 ## How it works
 
