@@ -52,7 +52,7 @@ export default (props: {
                             type="submit"
                             name="isRevertChanges"
                             value="true"
-                            class="secondary"
+                            class="contrast"
                         >
                             Revert Changes
                         </button>
