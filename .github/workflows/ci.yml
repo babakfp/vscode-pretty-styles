@@ -1,32 +1,23 @@
 name: build
 
 on:
-  push:
-    tags:
-      - "v*"
+    push:
+        tags:
+            - "v*"
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  compile:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version-file: .tool-versions
-      - run: deno task compile
-      - run: Compress-Archive -Path "vscode-pretty-styles\\*" -DestinationPath "vscode-pretty-styles.zip"
-      - name: Read tag message
-        shell: pwsh
-        run: |
-          $msg = git tag -l --format="%(contents)" $env:GITHUB_REF_NAME
-          $msg | Out-File -FilePath release-notes.txt -Encoding utf8
-      - uses: softprops/action-gh-release@v2
-        with:
-          body_path: release-notes.txt
-          files: vscode-pretty-styles.zip
-          generate_release_notes: true
+    compile:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: denoland/setup-deno@v1
+              with:
+                  deno-version-file: .tool-versions
+            - run: deno task compile
+            - run: Compress-Archive -Path "vscode-pretty-styles\\*" -DestinationPath "vscode-pretty-styles.zip"
+            - uses: softprops/action-gh-release@v2
+              with:
+                  files: vscode-pretty-styles.zip
