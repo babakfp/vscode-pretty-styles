@@ -6,6 +6,7 @@ import { serveDir } from "@std/http/file-server"
 import { ensureFile } from "@std/fs/ensure-file"
 import { contentType } from "@std/media-types/content-type"
 import * as path from "@std/path"
+import { parse } from "@std/jsonc"
 import * as v from "@valibot/valibot"
 import { render } from "preact-render-to-string"
 import { FormSchema } from "./FormSchema.ts"
@@ -42,10 +43,7 @@ export const serve = async (
             ? appHomeDirStorageDir
             : path.join(Deno.cwd(), "config")
         : appHomeDirStorageDir
-    const fontStoragePath = path.join(
-        appStorageDir,
-        "workbench-font-family.txt",
-    )
+
     const workbenchCSSStoragePath = path.join(
         appStorageDir,
         "workbench-styles.css",
@@ -55,23 +53,30 @@ export const serve = async (
         "iframe-markdown-styles.css",
     )
 
-    await ensureFile(fontStoragePath)
     await ensureFile(workbenchCSSStoragePath)
     await ensureFile(iframeMarkdownCSSStoragePath)
 
     const readWorkbenchFontFamily = async () => {
-        await ensureFile(fontStoragePath)
-        return removeDuplicateWhitespace(
-            (await Deno.readTextFile(fontStoragePath)).trim(),
-        )
-    }
+        // C:\Users\Babak\AppData\Roaming
+        const appDataDir = Deno.env.get("APPDATA")
+        if (!appDataDir) return ""
 
-    const writeFontToFileStorage = async (workbenchFontFamily: string) => {
-        await ensureFile(fontStoragePath)
-        return (await Deno.writeTextFile(
-            fontStoragePath,
-            removeDuplicateWhitespace(workbenchFontFamily.trim()),
-        ))
+        const settingsPath = path.join(
+            appDataDir,
+            "Code",
+            "User",
+            "settings.json",
+        )
+
+        if (!(await exists(settingsPath))) {
+            return ""
+        }
+
+        const settings = parse(await Deno.readTextFile(settingsPath)) as {
+            "editor.fontFamily"?: string
+        }
+
+        return settings?.["editor.fontFamily"]
     }
 
     const readWorkbenchCSSFromFileStorage = async () => {
@@ -130,13 +135,12 @@ export const serve = async (
                 }
 
                 const headers = new Headers()
-                if (formData.output?.workbenchFontFamily) {
-                    writeFontToFileStorage(formData.output.workbenchFontFamily)
-                }
+
+                const workbenchFontFamily = await readWorkbenchFontFamily()
 
                 if (
                     !formData.output?.isRevertChanges &&
-                    !formData.output?.workbenchFontFamily &&
+                    !workbenchFontFamily &&
                     !formData.output?.workbenchCSS
                 ) {
                     return makeHTMLResponse(
@@ -144,8 +148,7 @@ export const serve = async (
                             <Index
                                 statusCode={STATUS_CODE.BadRequest}
                                 statusText='"Workbench Font-Family" or "Custom CSS" cannot be empty!'
-                                workbenchFontFamily={formData.output
-                                    ?.workbenchFontFamily}
+                                workbenchFontFamily={workbenchFontFamily}
                                 {...await getStorageData()}
                             />,
                             { status: STATUS_CODE.BadRequest, headers },
@@ -185,8 +188,7 @@ export const serve = async (
                         <Index
                             statusCode={status}
                             statusText={statusText}
-                            workbenchFontFamily={formData.output
-                                ?.workbenchFontFamily}
+                            workbenchFontFamily={workbenchFontFamily}
                             {...await getStorageData()}
                         />,
                         { status, headers },

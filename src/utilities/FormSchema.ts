@@ -15,7 +15,6 @@ const cssSchema = v.union([
 ])
 
 export const FormSchema = v.object({
-    workbenchFontFamily: v.optional(v.string()),
     workbenchCSS: v.optional(cssSchema),
     iframeMarkdownCSS: v.optional(cssSchema),
     isRevertChanges: v.optional(

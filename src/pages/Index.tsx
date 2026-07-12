@@ -19,14 +19,15 @@ export default (props: {
                 <div class="container">
                     <form method="post" enctype="multipart/form-data">
                         <fieldset>
-                            <label for="workbenchFontFamily">
-                                Workbench Font Family
-                            </label>
-                            <input
-                                id="workbenchFontFamily"
-                                name="workbenchFontFamily"
-                                value={props.workbenchFontFamily}
-                            />
+                            {props.workbenchFontFamily &&
+                                (
+                                    <p>
+                                        <code>
+                                            "editor.fontFamily":{" "}
+                                            {props.workbenchFontFamily}
+                                        </code>
+                                    </p>
+                                )}
 
                             <label for="workbenchCSS">Workbench CSS</label>
                             <input
@@ -57,8 +58,8 @@ export default (props: {
                             Revert Changes
                         </button>
 
-                        {props.statusText
-                            ? (
+                        {props.statusText &&
+                            (
                                 <p
                                     class={props.statusCode === 200
                                         ? "pico-color-green-300"
@@ -66,8 +67,7 @@ export default (props: {
                                 >
                                     {props.statusText}
                                 </p>
-                            )
-                            : ""}
+                            )}
                     </form>
                 </div>
 
